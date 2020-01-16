@@ -14,6 +14,11 @@ class NodeRPCWebSocket extends EventEmitter {
         this._reciever.on('response_error', this.__handleRecieverResponseError.bind(this))
     }
 
+    /** Read only */
+    get readyState() {
+        return this._ws.readyState
+    }
+
     __handleReceiverRequest = (request) => {
         this.emit('request', request, this)
     }
