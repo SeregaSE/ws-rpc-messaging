@@ -1,4 +1,4 @@
-const EventEmitter = require('events')
+const EventEmitter = require('./event-emitter')
 const NodeRPCWebSocket = require('./node-websocket')
 
 class WebSocketServer extends EventEmitter {

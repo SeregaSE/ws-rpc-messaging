@@ -10,8 +10,8 @@ class BrowserRPCWebSocket extends EventEmitter {
         this.onmessage = this._reciever.onMessage
         this._reciever.on('error', this.__handleReceiverError)
         this._reciever.on('request', this.__handleReceiverRequest)
-        this._reciever.on('response', this.__handleRecieverResponse)
-        this._reciever.on('response_error', this.__handleRecieverResponseError)
+        this._reciever.on('response', this.__handleRecieverResponse.bind(this))
+        this._reciever.on('response_error', this.__handleRecieverResponseError.bind(this))
     }
 
     __handleError = (message) => {

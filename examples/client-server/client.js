@@ -1,19 +1,19 @@
-const { RPCWebSocket } = require('../../src')
+const WebSocket = require('ws')
+const { Client } = require('../../src')
 
-const url = 'ws://localhost:8080'
-
-const ws = new RPCWebSocket(url)
+const ws = new WebSocket('ws://localhost:8080')
+const client = new Client(ws)
 
 ws.on('open', () => {
-    ws.rpc.request('sum', [1, 3, 5])
+    client.request('sum', [1, 3, 5])
         .then(console.log)
         .catch(console.error)
 
-    ws.rpc.request('sub', [10, 2, 3])
+    client.request('sub', [10, 2, 3])
         .then(console.log)
         .catch(console.error)
 
-    ws.rpc.request('multiply', [2, 2, 3])
+    client.request('multiply', [2, 2, 3])
         .then(console.log)
         .catch(console.error)
 })

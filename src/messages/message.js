@@ -18,10 +18,6 @@ class Message {
     }
 
     toString() {
-        return JSON.stringify(this.toJSON())
-    }
-
-    toJSON() {
         return {
             jsonrpc: this.jsonrpc
         }

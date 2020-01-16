@@ -63,7 +63,7 @@ class Reciever extends EventEmitter {
             return this.emit('error', new ParseError(error.message))
         }
 
-        if (eventName && eventValue) {
+        if (emittedEvent && emittedMessage) {
             return this.emit(emittedEvent, emittedMessage)
         }
 

@@ -5,7 +5,7 @@ const requestAPI = {
     __proto__: sendAPI,
 
     notify(method, params) {
-        this._send({
+        super._send({
             method,
             params
         })
@@ -24,7 +24,7 @@ const requestAPI = {
                 reject,
             }
 
-            this._send({
+            super._send({
                 method,
                 params,
                 id
@@ -35,12 +35,14 @@ const requestAPI = {
     __handleRecieverResponse(message) {
         if (this._hasRequest(message.id)) {
             this._pendings[message.id].resolve(message.result)
+            this._deleteRequest(message.id)
         }
     },
 
     __handleRecieverResponseError(message) {
         if (this._hasRequest(message.id)) {
             this._pendings[message.id].reject(message.error)
+            this._deleteRequest(message.id)
         }
     },
 

@@ -65,12 +65,8 @@ class RequestMessage extends Message {
     }
 
     toString() {
-        return JSON.stringify(this.toJSON())
-    }
-    
-    toJSON() {
         return {
-            ...super.toJSON(),
+            ...super.toString(),
             method: this.method,
             params: this.params,
             id: this.id

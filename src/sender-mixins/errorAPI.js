@@ -12,7 +12,7 @@ const errorAPI = {
     __proto__: sendAPI,
 
     throw(id, error) {
-        this._send({
+        super._send({
             id,
             error
         })

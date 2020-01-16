@@ -46,14 +46,10 @@ class ResponseMessage extends Message {
 
         throw new Error(`id must be | int | string | null`)
     }
-
-    toString() {
-        return JSON.stringify(this.toJSON())
-    }
     
-    toJSON() {
+    toString() {
         return {
-            ...super.toJSON(),
+            ...super.toString(),
             result: this.result,
             id: this.id
         }

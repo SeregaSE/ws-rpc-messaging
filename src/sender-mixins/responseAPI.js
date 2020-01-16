@@ -4,7 +4,7 @@ const responseAPI = {
     __proto__: sendAPI,
 
     respond(id, result) {
-        this._send({
+        super._send({
             id,
             result
         })
