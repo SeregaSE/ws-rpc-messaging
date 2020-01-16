@@ -1,4 +1,3 @@
-
 const WebSocket = require('ws');
 const { Server } = require('../src')
 
@@ -11,7 +10,7 @@ console.log('balance: ', balance)
 rpc.on('request', (request, origin, server) => {
     switch (request.method) {
         case 'balance.get': {
-            origin.rpc.respond({ balance }, request.id)
+            origin.rpc.response({ balance }, request.id)
             break;
         }
         case 'balance.add': {

@@ -1,27 +1,31 @@
-class EventEmmitter {
+class EventEmitter {
     constructor() {
         this.handlers = {}
     }
 
-    on(name, handler) {
-        if (!Array.isArray(this.handlers[name])) {
-            this.handlers[name] = []
-        }
-
-        this.handlers[name].push(handler)
+    _has(event) {
+        return Array.isArray(this.handlers[event])
     }
 
-    dispatch(name, ...args) {
-        if (Array.isArray(this.handlers[name])) {
-            this.handlers[name].forEach(handler => { handler(...args) })
+    on(event, handler) {
+        if (!this._has(event)) {
+            this.handlers[event] = []
+        }
+        
+        this.handlers[event].push(handler)
+    }
+
+    emit(event, ...args) {
+        if (this._has(event)) {
+            this.handlers[event].forEach(handler => { handler(...args); })
         }
     }
 
-    remove(name, handler) {
-        if (Array.isArray(this.handlers[name])) {
-            this.handlers[name] = this.handlers[name].filter(it => it !== handler)
+    remove(event, handler) {
+        if (this._has(event)) {
+            this.handlers[event] = this.handlers[event].filter(it => it !== handler)
         }
     }
 }
 
-module.exports = EventEmmitter
+module.exports = EventEmitter

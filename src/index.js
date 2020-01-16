@@ -1,10 +1,12 @@
-const Client = require('./client')
-const Server = require('./server')
+// const BrowserRPCWebSocket = require('./browser-websocket')
+const NodeRPCWebSocket = require('./node-websocket')
+const WebSocketServer = require('./websocket-server')
 
 const constants = require('./constants')
 
 module.exports = {
-    Client,
-    Server,
+    // BrowserRPCWebSocket,
+    Client: NodeRPCWebSocket,
+    Server: WebSocketServer,
     ...constants
 }

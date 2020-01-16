@@ -1,72 +1,73 @@
-const EventEmitter = require('./event-emitter')
 const { ParseError } = require('./errors')
-const { JSONRPC_VERSION } = require('./constants')
+const EventEmitter = require('./event-emitter')
 const { ErrorMessage, RequestMessage, ResponseMessage } = require('./messages')
 
+/**
+ * Events:
+ * request - recieved request
+ * response - recieved response
+ * response_error - recieved error from another client / server (has id)
+ * error - parsing error, example invalid or nonstandart json
+ */
 class Reciever extends EventEmitter {
-    constructor(ws) {
+    constructor() {
         super()
-        ws.on('message', this.onMessage)
     }
 
-    dispatchParseError = (error, id) =>{
-        const parseError = ParseError(error.message)
-        this.dispatch('error', new ErrorMessage(JSONRPC_VERSION, parseError, id || null))
+    onMessage = (string) => {
+        const json = this._toJson(string)
+        const messages = this._toMessages(json)
+        messages.forEach(this._parseMessage)
     }
 
-    onMessage = (data) => {
-        const messages = this.parseData(data)
-
-        if (Array.isArray(messages)) {
-            messages.forEach(this.parseMessage)
-        } else {
-            this.parseMessage(messages)
-        }
-    }
-
-    parseData = (data) => {
+    _toJson(string) {
         try {
-            return JSON.parse(data)
+            return JSON.parse(string)
         } catch (error) {
-            this.dispatchParseError(error)
+            this.emit('error', new ParseError(error.message))
         }
     }
 
-    parseMessage = (message) => {
+    _toMessages(json) {
+        if (Array.isArray(json)) {
+            return json
+        }
+        
+        return [json]
+    }
+
+    _parseMessage = (message) => {
         if (typeof message !== 'object') {
-            return this.dispatchParseError(new Error('message must be object'))
+            return this.emit('error', new ParseError(`message in not an object, ${typeof message} recieved`))
         }
 
+        let emittedEvent, emittedMessage;
         const { jsonrpc, method, params, result, error, id } = message
-
-        let eventName, eventValue
 
         try {
             if (method !== undefined) {
-                eventValue = new RequestMessage(jsonrpc, method, params, id)
-                eventName = 'request'
+                emittedEvent = 'request'
+                emittedMessage = new RequestMessage(jsonrpc, method, params, id)
             }
     
             if (result !== undefined) {
-                eventValue = new ResponseMessage(jsonrpc, result, id)
-                eventName = 'response'
+                emittedEvent = 'response'
+                emittedMessage = new ResponseMessage(jsonrpc, result, id)
             }
     
             if (error !== undefined) {
-                eventValue = new ErrorMessage(jsonrpc, error, id)
-                eventName = 'error'
-
+                emittedEvent = 'response_error'
+                emittedMessage = new ErrorMessage(jsonrpc, error, id)
             }
         } catch (error) {
-            this.dispatchParseError(error, id)
-            return
+            return this.emit('error', new ParseError(error.message))
         }
 
         if (eventName && eventValue) {
-            return this.dispatch(eventName, eventValue)
+            return this.emit(emittedEvent, emittedMessage)
         }
 
-        this.dispatchParseError(new Error('message must be object'))
+        return this.emit('error', new ParseError('invalid message, json-rpc 2.0 format required'))
     }
 }
 
