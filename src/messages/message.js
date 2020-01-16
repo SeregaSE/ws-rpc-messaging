@@ -1,4 +1,4 @@
-const { JSONRPC_VERSION } = require('../../constants')
+const { JSONRPC_VERSION } = require('../constants')
 
 class Message {
     constructor(jsonrpc) {

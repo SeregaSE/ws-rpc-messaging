@@ -1,6 +1,6 @@
-const EventEmitter = require('../event-emitter')
-const { ParseError } = require('../errors')
-const { JSONRPC_VERSION } = require('../constants')
+const EventEmitter = require('./event-emitter')
+const { ParseError } = require('./errors')
+const { JSONRPC_VERSION } = require('./constants')
 const { ErrorMessage, RequestMessage, ResponseMessage } = require('./messages')
 
 class Reciever extends EventEmitter {

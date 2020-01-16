@@ -12,7 +12,6 @@ class Server extends EventEmitter {
         const client = new Client(ws)
         client.on('error', this.__handleError)
         client.on('request', this.__handleRequest)
-        client.on('response', this.__handleResponse)
     }
 
     __handleError = (error, client) => {
@@ -21,10 +20,6 @@ class Server extends EventEmitter {
 
     __handleRequest = (request, client) => {
         this.dispatch('request', request, client, this.wss)
-    }
-
-    __handleResponse = (response, client) => {
-        this.dispatch('response', response, client, this.wss)
     }
     
     listen = (...args) => {
