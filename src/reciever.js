@@ -14,15 +14,19 @@ class Reciever extends EventEmitter {
         this.dispatch('error', new ErrorMessage(JSONRPC_VERSION, parseError, id || null))
     }
 
-    onMessage = (message) => {
-        try {
-            const data = JSON.parse(message)
+    onMessage = (data) => {
+        const messages = this.parseData(data)
 
-            if (Array.isArray(data)) {
-                data.forEach(this.parseMessage)
-            } else {
-                this.parseMessage(data)
-            }
+        if (Array.isArray(messages)) {
+            messages.forEach(this.parseMessage)
+        } else {
+            this.parseMessage(messages)
+        }
+    }
+
+    parseData = (data) => {
+        try {
+            return JSON.parse(data)
         } catch (error) {
             this.dispatchParseError(error)
         }
@@ -35,24 +39,31 @@ class Reciever extends EventEmitter {
 
         const { jsonrpc, method, params, result, error, id } = message
 
+        let eventName, eventValue
+
         try {
             if (method !== undefined) {
-                const request = new RequestMessage(jsonrpc, method, params, id)
-                return this.dispatch('request', request)
+                eventValue = new RequestMessage(jsonrpc, method, params, id)
+                eventName = 'request'
             }
     
             if (result !== undefined) {
-                const response = new ResponseMessage(jsonrpc, result, id)
-                return this.dispatch('response', response)
+                eventValue = new ResponseMessage(jsonrpc, result, id)
+                eventName = 'response'
             }
     
             if (error !== undefined) {
-                const errorMessage = new ErrorMessage(jsonrpc, error, id)
-                return this.dispatch('error', errorMessage)
+                eventValue = new ErrorMessage(jsonrpc, error, id)
+                eventName = 'error'
+
             }
         } catch (error) {
             this.dispatchParseError(error, id)
             return
+        }
+
+        if (eventName && eventValue) {
+            return this.dispatch(eventName, eventValue)
         }
 
         this.dispatchParseError(new Error('message must be object'))

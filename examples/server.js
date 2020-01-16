@@ -11,7 +11,7 @@ console.log('balance: ', balance)
 rpc.on('request', (request, origin, server) => {
     switch (request.method) {
         case 'balance.get': {
-            origin.rpc.response({ balance }, request.id)
+            origin.rpc.respond({ balance }, request.id)
             break;
         }
         case 'balance.add': {
