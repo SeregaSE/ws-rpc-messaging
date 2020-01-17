@@ -1,5 +1,5 @@
-const RPCError = require('./RPCError')
-const { INVALID_PARAMS_ERROR } = require('../constants')
+import RPCError from './RPCError'
+import { INVALID_PARAMS_ERROR } from '../constants'
 
 class InvalidParamsError extends RPCError {
     constructor(data) {
@@ -7,4 +7,4 @@ class InvalidParamsError extends RPCError {
     }
 }
 
-module.exports = InvalidParamsError
+export default InvalidParamsError

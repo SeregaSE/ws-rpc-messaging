@@ -1,4 +1,4 @@
-const sendAPI = require('./sendAPI')
+import sendAPI from './sendAPI'
 
 const responseAPI = {
     __proto__: sendAPI,
@@ -11,4 +11,4 @@ const responseAPI = {
     }
 }
 
-module.exports = responseAPI
+export default responseAPI

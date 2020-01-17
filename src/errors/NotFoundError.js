@@ -1,5 +1,5 @@
-const RPCError = require('./RPCError')
-const { NOT_FOUND_ERROR } = require('../constants')
+import RPCError from './RPCError'
+import { NOT_FOUND_ERROR } from '../constants'
 
 class NotFoundError extends RPCError {
     constructor(data) {
@@ -7,4 +7,4 @@ class NotFoundError extends RPCError {
     }
 }
 
-module.exports = NotFoundError
+export default NotFoundError

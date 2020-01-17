@@ -1,5 +1,5 @@
-const RPCError = require('./RPCError')
-const { PARSE_ERROR } = require('../constants')
+import RPCError from './RPCError'
+import { PARSE_ERROR } from '../constants'
 
 class ParseError extends RPCError {
     constructor(data) {
@@ -7,4 +7,4 @@ class ParseError extends RPCError {
     }
 }
 
-module.exports = ParseError
+export default ParseError

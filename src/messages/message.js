@@ -1,4 +1,4 @@
-const { JSONRPC_VERSION } = require('../constants')
+import { JSONRPC_VERSION } from '../constants'
 
 class Message {
     constructor(jsonrpc) {
@@ -24,4 +24,4 @@ class Message {
     }
 }
 
-module.exports = Message
+export default Message

@@ -1,12 +1,12 @@
-const sendAPI = require('./sendAPI')
-const {
+import sendAPI from './sendAPI'
+import {
     InternalError,
     InvalidParamsError,
     InvalidRequestError,
     NotFoundError,
     ParseError,
     RPCError
-} = require('../errors')
+} from '../errors'
 
 const errorAPI = {
     __proto__: sendAPI,
@@ -47,4 +47,4 @@ const errorAPI = {
     }
 }
 
-module.exports = errorAPI
+export default errorAPI

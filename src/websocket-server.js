@@ -1,5 +1,5 @@
-const EventEmitter = require('./event-emitter')
-const NodeRPCWebSocket = require('./node-websocket')
+import EventEmitter from './event-emitter'
+import NodeRPCWebSocket from './node-websocket'
 
 class WebSocketServer extends EventEmitter {
     constructor(wss) {
@@ -30,4 +30,4 @@ class WebSocketServer extends EventEmitter {
     }
 }
 
-module.exports = WebSocketServer
+export default WebSocketServer

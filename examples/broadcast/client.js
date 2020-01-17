@@ -1,5 +1,5 @@
 const WebSocket = require('ws');
-const { Client } = require('../../src')
+const { Client } = require('../../lib')
 
 const createClient = (clientId) => {
     let balance = 0

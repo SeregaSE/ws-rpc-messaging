@@ -1,9 +1,3 @@
-const errorAPI = require('./errorAPI')
-const requestAPI = require('./requestAPI')
-const responseAPI = require('./responseAPI')
-
-module.exports = {
-    errorAPI,
-    requestAPI,
-    responseAPI
-}
+export { default as errorAPI } from './errorAPI'
+export { default as requestAPI } from './requestAPI'
+export { default as responseAPI }from './responseAPI'

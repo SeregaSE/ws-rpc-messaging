@@ -1,4 +1,4 @@
-const Message = require('./message')
+import Message from './message'
 
 class ResponseMessage extends Message {
     constructor(jsonrpc, result, id) {
@@ -56,4 +56,4 @@ class ResponseMessage extends Message {
     }
 }
 
-module.exports = ResponseMessage
+export default ResponseMessage

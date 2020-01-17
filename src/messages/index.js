@@ -1,9 +1,3 @@
-const ErrorMessage = require('./error')
-const RequestMessage = require('./request')
-const ResponseMessage = require('./response')
-
-module.exports = {
-    ErrorMessage,
-    RequestMessage,
-    ResponseMessage
-}
+export { default as ErrorMessage } from './error'
+export { default as RequestMessage } from './request'
+export { default as ResponseMessage }from './response'

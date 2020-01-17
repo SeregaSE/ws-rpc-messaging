@@ -1,5 +1,5 @@
-const uuid = require('uuid/v4')
-const sendAPI = require('./sendAPI')
+import uuid from 'uuid/v4'
+import sendAPI from './sendAPI'
 
 const requestAPI = {
     __proto__: sendAPI,
@@ -57,4 +57,4 @@ const requestAPI = {
     }
 }
 
-module.exports = requestAPI
+export default requestAPI

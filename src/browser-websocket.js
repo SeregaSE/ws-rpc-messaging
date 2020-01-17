@@ -1,4 +1,4 @@
-const RPCWebSocket = require('./websocket')
+import RPCWebSocket from './websocket'
 
 class BrowserRPCWebSocket extends RPCWebSocket {
     constructor(...args) {
@@ -12,4 +12,4 @@ class BrowserRPCWebSocket extends RPCWebSocket {
     }
 }
 
-module.exports = BrowserRPCWebSocket
+export default BrowserRPCWebSocket

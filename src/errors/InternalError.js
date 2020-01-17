@@ -1,5 +1,5 @@
-const RPCError = require('./RPCError')
-const { INTERNAL_ERROR } = require('../constants')
+import RPCError from './RPCError'
+import { INTERNAL_ERROR } from '../constants'
 
 class InternalError extends RPCError {
     constructor(data) {
@@ -7,4 +7,4 @@ class InternalError extends RPCError {
     }
 }
 
-module.exports = InternalError
+export default InternalError

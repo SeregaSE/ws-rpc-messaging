@@ -1,0 +1,12 @@
+{
+  "lib/browser.js": {
+    "bundled": 29355,
+    "minified": 12644,
+    "gzipped": 3579
+  },
+  "lib/index.js": {
+    "bundled": 27464,
+    "minified": 15880,
+    "gzipped": 3712
+  }
+}

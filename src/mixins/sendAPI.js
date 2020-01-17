@@ -1,4 +1,4 @@
-const { JSONRPC_VERSION } = require('../constants')
+import { JSONRPC_VERSION } from '../constants'
 
 const sendAPI = {
     _send(message) {
@@ -15,4 +15,4 @@ const sendAPI = {
     }
 };
 
-module.exports = sendAPI
+export default sendAPI

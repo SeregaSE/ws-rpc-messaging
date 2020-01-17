@@ -1,5 +1,5 @@
 const WebSocket = require('ws')
-const { Server } = require('../../src')
+const { Server } = require('../../lib')
 
 const wss = new WebSocket.Server({ port: 8080 })
 const rpc = new Server(wss)

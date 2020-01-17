@@ -1,6 +1,6 @@
-const Reciever = require('./reciever')
-const EventEmitter = require('./event-emitter')
-const { errorAPI, requestAPI, responseAPI } = require('./mixins')
+import Reciever from './reciever'
+import EventEmitter from './event-emitter'
+import { errorAPI, requestAPI, responseAPI } from './mixins'
 
 class RPCWebSocket extends EventEmitter {
     constructor(ws) {
@@ -96,4 +96,4 @@ class RPCWebSocket extends EventEmitter {
 
 Object.assign(RPCWebSocket.prototype, errorAPI, requestAPI, responseAPI);
 
-module.exports = RPCWebSocket
+export default RPCWebSocket

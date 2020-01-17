@@ -1,6 +1,6 @@
-const { ParseError } = require('./errors')
-const EventEmitter = require('./event-emitter')
-const { ErrorMessage, RequestMessage, ResponseMessage } = require('./messages')
+import { ParseError } from './errors'
+import EventEmitter from './event-emitter'
+import { ErrorMessage, RequestMessage, ResponseMessage } from './messages'
 
 /**
  * Events:
@@ -75,4 +75,4 @@ class Reciever extends EventEmitter {
     }
 }
 
-module.exports = Reciever
+export default Reciever

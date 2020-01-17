@@ -1,7 +1,7 @@
 const WebSocket = require('ws')
-const { Client } = require('../../src')
+const { Client } = require('../../lib')
 
-const ws = new WebSocket('ws://localhost:8080')
+const ws = new WebSocket('ws://localhost:3000')
 const client = new Client(ws)
 
 ws.on('open', () => {
