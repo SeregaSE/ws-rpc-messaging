@@ -1,4 +1,4 @@
-LIB IN DEV
+# LIB IN DEV
 
 Todo 
 - proxy wss api to rpc-server
