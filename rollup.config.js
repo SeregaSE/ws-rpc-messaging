@@ -1,8 +1,9 @@
+const babel = require('rollup-plugin-babel')
+const commonjs = require('rollup-plugin-commonjs')
+const resolve = require('rollup-plugin-node-resolve')
+const visualizer = require('rollup-plugin-visualizer')
 const { terser } = require('rollup-plugin-terser');
-const resolve = require('rollup-plugin-node-resolve');
-const commonjs = require('rollup-plugin-commonjs');
-const babel = require('rollup-plugin-babel');
-const { sizeSnapshot } = require('rollup-plugin-size-snapshot');
+const { sizeSnapshot } = require('rollup-plugin-size-snapshot')
 
 module.exports = [
     {
@@ -12,7 +13,12 @@ module.exports = [
             format: 'cjs'
         },
         plugins: [
-            resolve(),
+            resolve({
+                // pass custom options to the resolve plugin
+                customResolveOptions: {
+                    moduleDirectory: 'node_modules'
+                }
+            }),
             babel({
                 babelrc: false,
                 exclude: 'node_modules/**',
@@ -27,10 +33,26 @@ module.exports = [
     },
     {
         input: './src/browser.js',
-        output: {
-            file: 'lib/browser.js',
-            format: 'iife',
-        },
+        output: [
+            {
+                file: 'lib/ws-rpc-messaging.esm.js',
+                format: 'esm'
+            },
+            {
+                file: 'lib/ws-rpc-messaging.esm.min.js',
+                format: 'esm',
+                plugins: [terser(), visualizer()]
+            },
+            {
+                file: 'lib/ws-rpc-messaging.js',
+                format: 'iife',
+            },
+            {
+                file: 'lib/ws-rpc-messaging.min.js',
+                format: 'iife',
+                plugins: [terser()]
+            },
+        ],
         plugins: [
             resolve(),
             babel({
@@ -42,7 +64,6 @@ module.exports = [
                 ]
             }),
             commonjs(),
-            // terser(),
             sizeSnapshot()
         ],
     }

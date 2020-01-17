@@ -5,8 +5,46 @@
     "gzipped": 3579
   },
   "lib/index.js": {
-    "bundled": 27464,
-    "minified": 15880,
-    "gzipped": 3712
+    "bundled": 28288,
+    "minified": 16324,
+    "gzipped": 3800
+  },
+  "lib/ws-rpc-messaging.js": {
+    "bundled": 29355,
+    "minified": 12644,
+    "gzipped": 3579
+  },
+  "lib/ws-rpc-messaging.min.js": {
+    "bundled": 12644,
+    "minified": 12636,
+    "gzipped": 3576
+  },
+  "lib/ws-rpc-messaging.esm.js": {
+    "bundled": 27423,
+    "minified": 15525,
+    "gzipped": 3826,
+    "treeshaked": {
+      "rollup": {
+        "code": 12574,
+        "import_statements": 22
+      },
+      "webpack": {
+        "code": 13580
+      }
+    }
+  },
+  "lib/ws-rpc-messaging.esm.min.js": {
+    "bundled": 12597,
+    "minified": 12593,
+    "gzipped": 3577,
+    "treeshaked": {
+      "rollup": {
+        "code": 12566,
+        "import_statements": 22
+      },
+      "webpack": {
+        "code": 13560
+      }
+    }
   }
 }
