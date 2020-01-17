@@ -5,3 +5,4 @@ Todo
 - testing
 - examples
 - doc
+- build the lib for node / browser
