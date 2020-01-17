@@ -24,6 +24,10 @@ class WebSocketServer extends EventEmitter {
     __handleRequest = (request, client) => {
         this.emit('request', request, client, this)
     }
+
+    adress() {
+        return this._wss.adress()
+    }
 }
 
 module.exports = WebSocketServer

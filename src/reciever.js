@@ -15,6 +15,8 @@ class Reciever extends EventEmitter {
     }
 
     onMessage = (string) => {
+        /** Debug all recieved raw data */
+        // console.log('recieve', string)
         const json = this._toJson(string)
         const messages = this._toMessages(json)
         messages.forEach(this._parseMessage)
@@ -64,6 +66,8 @@ class Reciever extends EventEmitter {
         }
 
         if (emittedEvent && emittedMessage) {
+            /** Debug all recieved and sucess parsed messages */
+            // console.log('recieve', emittedEvent, emittedMessage)
             return this.emit(emittedEvent, emittedMessage)
         }
 

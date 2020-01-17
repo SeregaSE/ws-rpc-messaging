@@ -1,33 +1,23 @@
-const Reciever = require('./reciever')
-const EventEmitter = require('./event-emitter')
-const { errorAPI, requestAPI, responseAPI } = require('./sender-mixins')
+const RPCWebSocket = require('./websocket')
 
-class NodeRPCWebSocket extends EventEmitter {
+class NodeRPCWebSocket extends RPCWebSocket {
     constructor(ws) {
-        super()
-        this._ws = ws
-        this._reciever = new Reciever()
+        super(ws)
         this._ws.on('message', this._reciever.onMessage)
-        this._reciever.on('error', this.__handleReceiverError)
-        this._reciever.on('request', this.__handleReceiverRequest)
-        this._reciever.on('response', this.__handleRecieverResponse.bind(this))
-        this._reciever.on('response_error', this.__handleRecieverResponseError.bind(this))
+
     }
 
-    /** Read only */
-    get readyState() {
-        return this._ws.readyState
+    ping(...args) {
+        this._ws.ping(...args)
     }
 
-    __handleReceiverRequest = (request) => {
-        this.emit('request', request, this)
+    pong(...args) {
+        this._ws.pong(...args)
     }
 
-    __handleReceiverError = (error) => {
-        this.emit('error', error, this)
+    terminate(...args) {
+        this._ws.terminate(...args)
     }
 }
-
-Object.assign(NodeRPCWebSocket.prototype, errorAPI, requestAPI, responseAPI);
 
 module.exports = NodeRPCWebSocket
