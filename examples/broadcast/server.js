@@ -10,7 +10,7 @@ rpc.on('connection', client => {
     client.request('balance.update', { balance })
 })
 
-rpc.on('request', (request, _, server) => {
+rpc.on('request', (request, origin, server) => {
     if (request.method === 'balance.add') {
         balance += request.params.amount
         
@@ -20,5 +20,12 @@ rpc.on('request', (request, _, server) => {
                 client.notify('balance.update', { balance });
             }
         });
+
+        return
+    }
+
+    /** throw not found error if have request id, it's not notification request */
+    if (request.id) {
+        origin.throwNotFound(request.id, `method ${request.method} not found`)
     }
 })

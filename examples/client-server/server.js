@@ -21,7 +21,12 @@ rpc.on('request', (request, client) => {
         const result = fn(...request.params)
         /** request.id is important!!! */
         client.respond(request.id, result)
-    } else {
+
+        return
+    }
+    
+    /** throw not found error if have request id, it's not notification request */
+    if (request.id) {
         client.throwNotFound(request.id, `method ${request.method} not found`)
     }
 })
