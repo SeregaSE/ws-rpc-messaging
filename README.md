@@ -1,6 +1,6 @@
 # LIB IN DEV
 
-Todo 
+Todo:
 - proxy wss api to rpc-server
 - build the lib for node / browser
 - testing
