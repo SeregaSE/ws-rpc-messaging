@@ -10,40 +10,40 @@
     "gzipped": 3800
   },
   "lib/ws-rpc-messaging.js": {
-    "bundled": 29355,
-    "minified": 12644,
-    "gzipped": 3579
+    "bundled": 30235,
+    "minified": 12776,
+    "gzipped": 3651
   },
   "lib/ws-rpc-messaging.min.js": {
-    "bundled": 12644,
-    "minified": 12636,
-    "gzipped": 3576
+    "bundled": 12776,
+    "minified": 12711,
+    "gzipped": 3595
   },
   "lib/ws-rpc-messaging.esm.js": {
-    "bundled": 27423,
-    "minified": 15525,
-    "gzipped": 3826,
+    "bundled": 28317,
+    "minified": 15708,
+    "gzipped": 3926,
     "treeshaked": {
       "rollup": {
-        "code": 12574,
-        "import_statements": 22
+        "code": 12415,
+        "import_statements": 0
       },
       "webpack": {
-        "code": 13580
+        "code": 13377
       }
     }
   },
   "lib/ws-rpc-messaging.esm.min.js": {
-    "bundled": 12597,
-    "minified": 12593,
-    "gzipped": 3577,
+    "bundled": 12736,
+    "minified": 12715,
+    "gzipped": 3639,
     "treeshaked": {
       "rollup": {
-        "code": 12566,
-        "import_statements": 22
+        "code": 12640,
+        "import_statements": 0
       },
       "webpack": {
-        "code": 13560
+        "code": 13591
       }
     }
   }

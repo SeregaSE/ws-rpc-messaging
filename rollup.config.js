@@ -1,7 +1,6 @@
 const babel = require('rollup-plugin-babel')
 const commonjs = require('rollup-plugin-commonjs')
 const resolve = require('rollup-plugin-node-resolve')
-const visualizer = require('rollup-plugin-visualizer')
 const { terser } = require('rollup-plugin-terser');
 const { sizeSnapshot } = require('rollup-plugin-size-snapshot')
 
@@ -41,20 +40,24 @@ module.exports = [
             {
                 file: 'lib/ws-rpc-messaging.esm.min.js',
                 format: 'esm',
-                plugins: [terser(), visualizer()]
+                plugins: [terser()]
             },
             {
                 file: 'lib/ws-rpc-messaging.js',
                 format: 'iife',
+                name: 'RPCWebSocket',
             },
             {
                 file: 'lib/ws-rpc-messaging.min.js',
                 format: 'iife',
+                name: 'RPCWebSocket',
                 plugins: [terser()]
             },
         ],
         plugins: [
-            resolve(),
+            resolve({
+                browser: true
+            }),
             babel({
                 babelrc: false,
                 exclude: 'node_modules/**',
@@ -64,7 +67,6 @@ module.exports = [
                 ]
             }),
             commonjs(),
-            sizeSnapshot()
-        ],
+            sizeSnapshot()        ],
     }
 ];
