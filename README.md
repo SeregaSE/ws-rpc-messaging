@@ -1,9 +1,6 @@
 # LIB IN DEV
 
 Todo:
-- proxy wss api to rpc-server
-- build the lib for node / browser
-- testing
-- ci/cd
-- examples
-- doc
+- set up rollup build, write tets, set up ci/cd (mb travis)
+- write doc (readme)
+- find better solution to proxy ws/wss api to own classes (mb use Proxy)
