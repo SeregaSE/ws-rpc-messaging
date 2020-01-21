@@ -1,5 +1,8 @@
 # WS-RPC-MESSAGING
 
+WS-RPC-MESSAGING package provides json-rpc 2.0 like way to real-time and bidirectional communication via websocket.
+I'am trying to keep package simple and lightweight. [WS package](https://www.npmjs.com/package/ws) used in core of current package.
+
 [![Version npm](https://img.shields.io/npm/v/ws-rpc-messaging.svg?logo=npm)](https://www.npmjs.com/package/ws-rpc-messaging)
 [![Build Status](https://travis-ci.org/SeregaSE/ws-rpc-messaging.svg?branch=master)](https://travis-ci.org/SeregaSE/ws-rpc-messaging)
 
@@ -9,28 +12,17 @@ First realese (1.0.0) is planned on 15.02.2020
 
 TO DO:
 
-* write tests, set up ci/cd (mb travis)
+* write tests
+* better doc
+
+TO DO FEATURES:
+
 * bulk messaging
 
-## Installing
+## Table of contents
 
-using nodejs
-
-`npm install --save ws-rpc-messaging`
-
-`const { Server, Client } = require('ws-rpc-messaging')`
-
-using CDN
-
-`<script src="https://unpkg.com/ws-rpc-messaging/lib/ws-rpc-messaging.js"></script>`
-
-`<script src="https://unpkg.com/ws-rpc-messaging/lib/ws-rpc-messaging.min.js"></script>`
-
-## ws-rpc-messaging provide json-rpc 2.0 like way to communicate between client and server via websockets
-
-Lib has been written to use in complex with [ws package](https://www.npmjs.com/package/ws)
-
-* [How to use](#how-to-use)
+* [How to use](#installing)
+* [How to use](#examples)
 * [Server](#server)
   * [recieve-error event](#event-recieve-error)
   * [request event](#event-request)
@@ -45,7 +37,19 @@ Lib has been written to use in complex with [ws package](https://www.npmjs.com/p
 * [Broadcast](#broadcast)
 * [Usefull links](#usefull-links)
 
-## How to use
+## Installing
+
+using nodejs
+
+`npm install --save ws-rpc-messaging`
+
+using CDN
+
+`<script src="https://unpkg.com/ws-rpc-messaging/lib/ws-rpc-messaging.js"></script>`
+
+`<script src="https://unpkg.com/ws-rpc-messaging/lib/ws-rpc-messaging.min.js"></script>`
+
+## Examples
 
 For working examples and details [see examples](/examples)
 
@@ -53,7 +57,13 @@ For working examples and details [see examples](/examples)
 
 ### Server
 
-Server class extends [WebSocket.Server from ws pacakge](https://github.com/websockets/ws/blob/master/doc/ws.md#class-websocketserver)
+Server class extends [WebSocket.Server from ws package (see for all available options)](https://github.com/websockets/ws/blob/master/doc/ws.md#class-websocketserver)
+
+#### Event: 'request'
+
+* request {Object} json-rpc 2.0 Request object
+* client  {Client}, sender
+* server  {Client}, self-link for server
 
 #### Event: 'recieve-error'
 
@@ -63,14 +73,8 @@ Server class extends [WebSocket.Server from ws pacakge](https://github.com/webso
 
 Emitted when can't parse recieved message
 
-#### Event: 'request'
-
-* request {Object} json-rpc 2.0 Request object
-* client  {Client}, sender
-* server  {Client}, self-link for server
-
 ```js
-const { Server } = require('../../lib')
+const { Server } = require('ws-rpc-messaging')
 
 const rpc = new Server({ port: 3000 })
 
@@ -105,7 +109,7 @@ rpc.on('request', (request, client) => {
 
 ### Node client
 
-Client class extends [WebSocket from ws pacakge](https://github.com/websockets/ws/blob/master/doc/ws.md#class-websocket)
+Client class extends [WebSocket from ws package](https://github.com/websockets/ws/blob/master/doc/ws.md#class-websocket)
 
 #### Event (client): 'recieve-error'
 
@@ -159,7 +163,7 @@ Other helpers to respond with errors
 * throwInternalError(id, data string)
 
 ```js
-const { Client } = require('../../lib')
+const { Client } = require('ws-rpc-messaging')
 
 const client = new Client('ws://localhost:3000')
 
@@ -224,7 +228,7 @@ client.onopen = () => {
 ```js
 /**
  * For broabcast use server.clients
- * All see https://github.com/websockets/ws#server-broadcast
+ * See https://github.com/websockets/ws#server-broadcast
  */
 rpc.on('request', (request, origin, server) => {
     server.clients.forEach((client) => {
