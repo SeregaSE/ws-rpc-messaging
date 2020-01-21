@@ -18,9 +18,9 @@ using nodejs
 
 using CDN
 
-`<script src="https://unpkg.com/ws-rpc-messaging@0.0.5/lib/ws-rpc-messaging.js"></script>`
+`<script src="https://unpkg.com/ws-rpc-messaging/lib/ws-rpc-messaging.js"></script>`
 
-`<script src="https://unpkg.com/ws-rpc-messaging@0.0.5/lib/ws-rpc-messaging.min.js"></script>`
+`<script src="https://unpkg.com/ws-rpc-messaging/lib/ws-rpc-messaging.min.js"></script>`
 
 ## ws-rpc-messaging provide json-rpc 2.0 like way to communicate between client and server via websockets
 
