@@ -1,10 +1,13 @@
 language: node_js
 node_js:
-    - '13'
-    - '12'
-    - '10'
-    - '8'
-  os:
-    - linux
-    - osx
-    - windows
+  - '13'
+  - '12'
+  - '10'
+  - '8'
+os:
+  - linux
+  - osx
+  - windows
+script:
+  - npm run test
+  - npm run build

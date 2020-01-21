@@ -5,6 +5,8 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "jest",
+    "lint": "eslint ./src",
+    "lint:fix": "eslint ./src --fix",
     "build": "rollup --config rollup.config.js"
   },
   "keywords": [
