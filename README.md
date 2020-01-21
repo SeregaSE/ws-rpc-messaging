@@ -22,7 +22,7 @@ Lib has been written to use in complex with [ws package](https://www.npmjs.com/p
 
 ## How to use
 
-For working examples and more information [see examples dir](/tree/master/examples)
+For working examples and more information [see examples](/examples)
 
 ### Server
 
