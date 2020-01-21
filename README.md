@@ -19,10 +19,10 @@ Lib has been written to use in complex with [ws package](https://www.npmjs.com/p
 * [Node client](#node-client)
   * [recieve-error event](#event-client-recieve-error)
   * [request event](#event-client-request)
-  * [notify](#clientnotify-method-params)
-  * [request](#clientrequest-method-params)
-  * [respond](#clientrespond-id-result)
-  * [throw](#clientthrow-id-error)
+  * [notify](#clientnotifymethod-params)
+  * [request](#clientrequestmethod-params-promise)
+  * [respond](#clientrespondid-result)
+  * [throw](#clientthrowid-error)
 * [Browser client](#browser-client)
 * [Broadcast](#broadcast)
 * [Usefull links](#usefull-links)
@@ -99,7 +99,7 @@ Emitted when can't parse recieved message
 * request {Object} json-rpc 2.0 Request object
 * client  {Client}, self-link for client
 
-#### Client.notify(method, params)
+#### client.notify(method, params)
 
 * method {String} json-rpc 2.0 method
 * params {Object} json-rpc 2.0 params
@@ -108,21 +108,21 @@ Send notification message to reciever. Reciever emit 'request' event.
 
 Notification DO NOT expect to have a response!
 
-#### Client.request(method, params) Promise
+#### client.request(method, params) Promise
 
 * method {String} json-rpc 2.0 method
 * params {Object} json-rpc 2.0 params
 
 Send request message to reciever. Reciever emit 'request' event. Return promise which will be resolved with JSON-RPC 2.0 RESPONSE object or rejected with JSON-RPC 2.0 ERROR object.
 
-#### Client.respond(id, result)
+#### client.respond(id, result)
 
 * id     {String} json-rpc 2.0 request id, (string, int, null)
 * result {Object} json-rpc 2.0 result
 
 Send response message to request sender. Resolve Promise returned by the Client.request with the same id as in request.
 
-#### Client.throw(id, error)
+#### client.throw(id, error)
 
 * id    {String} json-rpc 2.0 request id, (string, int, null)
 * error {Object} json-rpc 2.0 error
