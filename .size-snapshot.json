@@ -5,19 +5,19 @@
     "gzipped": 3579
   },
   "lib/index.js": {
-    "bundled": 12719,
-    "minified": 7834,
-    "gzipped": 2160
+    "bundled": 12735,
+    "minified": 7850,
+    "gzipped": 2168
   },
   "lib/ws-rpc-messaging.js": {
-    "bundled": 28396,
-    "minified": 12026,
-    "gzipped": 3518
+    "bundled": 28404,
+    "minified": 12034,
+    "gzipped": 3523
   },
   "lib/ws-rpc-messaging.min.js": {
-    "bundled": 12026,
-    "minified": 11961,
-    "gzipped": 3462
+    "bundled": 12034,
+    "minified": 11969,
+    "gzipped": 3466
   },
   "lib/ws-rpc-messaging.esm.js": {
     "bundled": 28447,
