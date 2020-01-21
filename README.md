@@ -1,4 +1,9 @@
-# LIB IN DEV
+# WS-RPC-MESSAGING
+
+[![Version npm](https://img.shields.io/npm/v/ws.svg?logo=npm)](https://www.npmjs.com/package/ws-rpc-messaging)
+[![Build Status](https://travis-ci.org/SeregaSE/ws-rpc-messaging.svg?branch=master)](https://travis-ci.org/SeregaSE/ws-rpc-messaging)
+
+## LIB IN DEV
 
 First realese (1.0.0) is planned on 15.02.2020
 
