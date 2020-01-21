@@ -142,5 +142,5 @@ rpc.on('request', (request, origin, server) => {
 
 ## Usefull links
 
-[ws package](https://www.npmjs.com/package/ws)
-[json-rpc 2.0 specification](https://www.jsonrpc.org/specification)
+- [ws package](https://www.npmjs.com/package/ws)
+- [json-rpc 2.0 specification](https://www.jsonrpc.org/specification)
