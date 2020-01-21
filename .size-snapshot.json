@@ -5,24 +5,24 @@
     "gzipped": 3579
   },
   "lib/index.js": {
-    "bundled": 28288,
-    "minified": 16324,
-    "gzipped": 3800
+    "bundled": 28418,
+    "minified": 16415,
+    "gzipped": 3813
   },
   "lib/ws-rpc-messaging.js": {
-    "bundled": 30235,
-    "minified": 12776,
-    "gzipped": 3651
+    "bundled": 30368,
+    "minified": 12829,
+    "gzipped": 3674
   },
   "lib/ws-rpc-messaging.min.js": {
-    "bundled": 12776,
-    "minified": 12711,
-    "gzipped": 3595
+    "bundled": 12829,
+    "minified": 12764,
+    "gzipped": 3612
   },
   "lib/ws-rpc-messaging.esm.js": {
-    "bundled": 28317,
-    "minified": 15708,
-    "gzipped": 3926,
+    "bundled": 28447,
+    "minified": 15799,
+    "gzipped": 3938,
     "treeshaked": {
       "rollup": {
         "code": 12415,
@@ -34,17 +34,27 @@
     }
   },
   "lib/ws-rpc-messaging.esm.min.js": {
-    "bundled": 12736,
-    "minified": 12715,
-    "gzipped": 3639,
+    "bundled": 12792,
+    "minified": 12771,
+    "gzipped": 3657,
     "treeshaked": {
       "rollup": {
-        "code": 12640,
+        "code": 12696,
         "import_statements": 0
       },
       "webpack": {
-        "code": 13591
+        "code": 13647
       }
     }
+  },
+  "lib/ws-rpc-messaging.cjs.js": {
+    "bundled": 28464,
+    "minified": 15812,
+    "gzipped": 3945
+  },
+  "lib/ws-rpc-messaging.cjs.min.js": {
+    "bundled": 12805,
+    "minified": 12784,
+    "gzipped": 3664
   }
 }

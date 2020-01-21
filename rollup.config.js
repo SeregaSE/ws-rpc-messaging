@@ -34,23 +34,23 @@ module.exports = [
         input: './src/browser.js',
         output: [
             {
-                file: 'lib/ws-rpc-messaging.esm.js',
-                format: 'esm'
+                file: 'lib/ws-rpc-messaging.cjs.js',
+                format: 'cjs'
             },
             {
-                file: 'lib/ws-rpc-messaging.esm.min.js',
-                format: 'esm',
+                file: 'lib/ws-rpc-messaging.cjs.min.js',
+                format: 'cjs',
                 plugins: [terser()]
             },
             {
                 file: 'lib/ws-rpc-messaging.js',
                 format: 'iife',
-                name: 'RPCWebSocket',
+                name: 'RPCClient',
             },
             {
                 file: 'lib/ws-rpc-messaging.min.js',
                 format: 'iife',
-                name: 'RPCWebSocket',
+                name: 'RPCClient',
                 plugins: [terser()]
             },
         ],

@@ -18,10 +18,10 @@ rpc.on('request', (request, client) => {
 
     if (fn) {
         const result = fn(...request.params)
-        
+
         /** request.id is important!!! */
         client.respond(request.id, result)
-
+        
         return
     }
     

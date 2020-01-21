@@ -4,7 +4,6 @@ class NodeRPCWebSocket extends RPCWebSocket {
     constructor(ws) {
         super(ws)
         this._ws.on('message', this._reciever.onMessage)
-
     }
 
     ping(...args) {
