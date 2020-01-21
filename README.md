@@ -3,11 +3,10 @@
 First realese (1.0.0) is planned on 15.02.2020
 
 TO DO:
-* write tets, set up ci/cd (mb travis)
-* call helper
+
+* write tests, set up ci/cd (mb travis)
 * bulk messaging
-* find better solution to proxy ws/wss api to own classes (mb use Proxy)
-* check cjs browser module
+* optimize build, make cjs for node, iife for cdn, cjs for frontend build systems
 
 ## ws-rpc-messaging provide json-rpc 2.0 like way to communicate between client and server via websockets
 
@@ -15,15 +14,15 @@ Lib has been written to use in complex with [ws package](https://www.npmjs.com/p
 
 * [How to use](#how-to-use)
 * [Server](#server)
-  * [recieve-error event](#event:-'recieve-error')
-  * [request event](#event:-'request')
+  * [recieve-error event](#event-recieve-error')
+  * [request event](#event-request)
 * [Node client](#node-client)
-  * [recieve-error event](#event-(client):-'recieve-error')
-  * [request event](#event-(client):-'request')
-  * [notify](#сlient.notify(method,-params))
-  * [request](#сlient.request(method,-params))
-  * [respond](#client.respond(id,-result))
-  * [throw](#client.throw(id,-error))
+  * [recieve-error event](#event-client-recieve-error')
+  * [request event](#event-client-request')
+  * [notify](#client-notify-method-params)
+  * [request](#client-request-method-params)
+  * [respond](#client-respond-id-result)
+  * [throw](#client-throw-id-error)
 * [Browser client](#browser-client)
 * [Broadcast](#broadcast)
 * [Usefull links](#usefull-links)
