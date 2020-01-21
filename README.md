@@ -1,6 +1,6 @@
 # WS-RPC-MESSAGING
 
-[![Version npm](https://img.shields.io/npm/v/ws.svg?logo=npm)](https://www.npmjs.com/package/ws-rpc-messaging)
+[![Version npm](https://img.shields.io/npm/v/ws-rpc-messaging.svg?logo=npm)](https://www.npmjs.com/package/ws-rpc-messaging)
 [![Build Status](https://travis-ci.org/SeregaSE/ws-rpc-messaging.svg?branch=master)](https://travis-ci.org/SeregaSE/ws-rpc-messaging)
 
 ## LIB IN DEV
