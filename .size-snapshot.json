@@ -10,14 +10,14 @@
     "gzipped": 2168
   },
   "lib/ws-rpc-messaging.js": {
-    "bundled": 28404,
-    "minified": 12034,
-    "gzipped": 3523
+    "bundled": 28588,
+    "minified": 12108,
+    "gzipped": 3545
   },
   "lib/ws-rpc-messaging.min.js": {
-    "bundled": 12034,
-    "minified": 11969,
-    "gzipped": 3466
+    "bundled": 12108,
+    "minified": 12043,
+    "gzipped": 3491
   },
   "lib/ws-rpc-messaging.esm.js": {
     "bundled": 28447,

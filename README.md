@@ -10,7 +10,7 @@ TO DO:
 
 ## Installing
 
-using NODE
+using nodejs
 
 `npm install --save ws-rpc-messaging`
 
@@ -22,10 +22,9 @@ using CDN
 
 `<script src="https://unpkg.com/ws-rpc-messaging@0.0.5/lib/ws-rpc-messaging.min.js"></script>`
 
-
 ## ws-rpc-messaging provide json-rpc 2.0 like way to communicate between client and server via websockets
 
-Lib has been written to use in complex with [ws package](https://www.npmjs.com/package/ws) but you could use any other ws realization with same api.
+Lib has been written to use in complex with [ws package](https://www.npmjs.com/package/ws)
 
 * [How to use](#how-to-use)
 * [Server](#server)
@@ -44,7 +43,9 @@ Lib has been written to use in complex with [ws package](https://www.npmjs.com/p
 
 ## How to use
 
-For working examples and more information [see examples](/examples)
+For working examples and details [see examples](/examples)
+
+## API
 
 ### Server
 
@@ -175,7 +176,21 @@ client.on('open', () => {
 
 ### Browser client
 
-Browser Client class extends native WebSocket. Other API is the same as [Node Client](#node-client)
+Browser client class extends native WebSocket. Instead request and reciever-error events it has properties as handlers.
+
+#### Property onrecieveerror
+
+* error  {Error}
+* client {Client}, self-link for client
+
+Emitted when can't parse recieved message
+
+#### Property request
+
+* request {Object} json-rpc 2.0 Request object
+* client  {Client}, self-link for client
+
+Other API is the same as [Node Client](#node-client)
 
 ```js
 /**

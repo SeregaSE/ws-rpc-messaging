@@ -7,6 +7,10 @@ const fns = {
     sub: (...args) => args.slice(1).reduce((acc, n) => acc - n, args[0]),
 }
 
+rpc.on('connection', (client) => {
+    client.notify('auth', { login: 'Mr. Math', timestamp: Date.now() })
+})
+
 /**
  * You can use routing or write any logic you want here...
  * Just don't forget to send response or error if request.id !== undefined

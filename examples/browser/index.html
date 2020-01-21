@@ -15,6 +15,10 @@
     <script type="text/javascript">
         const client = new RPCClient('ws://localhost:3000') // window.RPCClient
 
+        client.onrequest = (request) => {
+            console.log(request.id, request.method, request.params)
+        }
+
         client.onopen = () => {
             client.request('sum', [1, 3, 5])
                 .then(console.log) // 9
