@@ -57,7 +57,7 @@ For working examples and details [see examples](/examples)
 
 ### Server
 
-Server class extends [WebSocket.Server from ws package (see for all available options)](https://github.com/websockets/ws/blob/master/doc/ws.md#class-websocketserver)
+Server class extends [WebSocket.Server from ws package](https://github.com/websockets/ws/blob/master/doc/ws.md#class-websocketserver)
 
 #### Event: 'request'
 
