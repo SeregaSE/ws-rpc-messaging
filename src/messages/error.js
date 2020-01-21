@@ -58,9 +58,9 @@ class ErrorMessage extends Message {
         throw new Error('id must be | int | string | null');
     }
 
-    toJson() {
+    toJSON() {
         return {
-            ...super.toJson(),
+            ...super.toJSON(),
             error: this.error,
             id: this.id,
         };

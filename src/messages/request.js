@@ -69,9 +69,9 @@ class RequestMessage extends Message {
         throw new Error('id must be ommited | int | string | null');
     }
 
-    toJson() {
+    toJSON() {
         return {
-            ...super.toJson(),
+            ...super.toJSON(),
             method: this.method,
             params: this.params,
             id: this.id,

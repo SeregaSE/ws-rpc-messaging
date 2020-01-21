@@ -7,17 +7,17 @@
   "lib/index.js": {
     "bundled": 12878,
     "minified": 7849,
-    "gzipped": 2161
+    "gzipped": 2160
   },
   "lib/ws-rpc-messaging.js": {
     "bundled": 28870,
     "minified": 12188,
-    "gzipped": 3580
+    "gzipped": 3577
   },
   "lib/ws-rpc-messaging.min.js": {
     "bundled": 12188,
     "minified": 12123,
-    "gzipped": 3522
+    "gzipped": 3518
   },
   "lib/ws-rpc-messaging.esm.js": {
     "bundled": 28447,
