@@ -17,7 +17,7 @@ class Message {
         this._jsonrpc = value;
     }
 
-    toString() {
+    toJson() {
         return {
             jsonrpc: this.jsonrpc,
         };

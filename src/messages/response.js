@@ -51,9 +51,9 @@ class ResponseMessage extends Message {
         throw new Error('id must be | int | string | null');
     }
 
-    toString() {
+    toJson() {
         return {
-            ...super.toString(),
+            ...super.toJson(),
             result: this.result,
             id: this.id,
         };

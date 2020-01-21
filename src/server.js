@@ -9,8 +9,8 @@ class RPCWebSocketServer extends ws.Server {
 
     handleConnection = (client) => {
         withNodeRPC(client, {
-            handleReceiverError: this.createClientReceiverErrorHandle(ws),
-            handleReceiverRequest: this.createClientReceiverRequestHandle(ws),
+            handleReceiverError: this.createClientReceiverErrorHandle(client),
+            handleReceiverRequest: this.createClientReceiverRequestHandle(client),
         });
     }
 

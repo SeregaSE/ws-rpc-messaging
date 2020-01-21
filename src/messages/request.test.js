@@ -1,4 +1,4 @@
-const RequestMessage = require('./request');
+import RequestMessage from './request';
 
 test('new RequestMessage (notification)', () => {
     const request = new RequestMessage('2.0', 'sum', [1, 4]);
