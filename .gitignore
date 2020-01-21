@@ -1,3 +1,12 @@
-.idea
-stats.html
+# dependencies
 node_modules
+
+# build stats
+stats.html
+
+# webstorm
+.idea
+
+# editors
+.vscode
+

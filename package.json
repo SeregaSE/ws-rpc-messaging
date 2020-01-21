@@ -5,8 +5,8 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "jest",
-    "lint": "eslint ./src",
-    "lint:fix": "eslint ./src --fix",
+    "lint": "eslint --config .eslintrc.js src",
+    "lint:fix": "eslint --fix --config .eslintrc.js src",
     "build": "rollup --config rollup.config.js"
   },
   "keywords": [
@@ -23,9 +23,11 @@
     "@babel/core": "^7.8.3",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/preset-env": "^7.8.3",
+    "babel-eslint": "^10.0.3",
     "babel-preset-env": "^1.7.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.20.0",
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-promise": "^4.2.1",

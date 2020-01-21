@@ -1,27 +1,27 @@
-import { JSONRPC_VERSION } from '../constants'
+import { JSONRPC_VERSION } from '../constants';
 
 class Message {
     constructor(jsonrpc) {
-        this.jsonrpc = jsonrpc
+        this.jsonrpc = jsonrpc;
     }
 
     get jsonrpc() {
-        return this._jsonrpc
+        return this._jsonrpc;
     }
 
     set jsonrpc(value) {
         if (value !== JSONRPC_VERSION) {
-            throw new Error(`jsonrpc is required, ${JSONRPC_VERSION} expected`)
+            throw new Error(`jsonrpc is required, ${JSONRPC_VERSION} expected`);
         }
 
-        this._jsonrpc = value
+        this._jsonrpc = value;
     }
 
     toString() {
         return {
-            jsonrpc: this.jsonrpc
-        }
+            jsonrpc: this.jsonrpc,
+        };
     }
 }
 
-export default Message
+export default Message;

@@ -11,9 +11,9 @@ class RPCError extends Error {
         return {
             code: this.code,
             data: this.data,
-            message: this.message
-        }
+            message: this.message,
+        };
     }
 }
 
-export default RPCError
+export default RPCError;

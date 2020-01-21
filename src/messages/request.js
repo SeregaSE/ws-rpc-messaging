@@ -1,67 +1,72 @@
-import Message from './message'
+import Message from './message';
 
 class RequestMessage extends Message {
     constructor(jsonrpc, method, params, id) {
-        super(jsonrpc)
-        this.method = method
-        this.params = params
-        this.id = id
+        super(jsonrpc);
+        this.method = method;
+        this.params = params;
+        this.id = id;
     }
 
     get method() {
-        return this._method
+        return this._method;
     }
 
     set method(value) {
         if (typeof value === 'string' && value.length > 0) {
-            return this._method = value
+            this._method = value;
+            return;
         }
 
-        throw new Error(`method must be not empty string`)
+        throw new Error('method must be not empty string');
     }
 
     get params() {
-        return this._params
+        return this._params;
     }
 
     set params(value) {
         if (value === null) {
-            throw new Error(`params must be ommited | array | object, got null`)
+            throw new Error('params must be ommited | array | object, got null');
         }
 
         if (typeof value === 'object' || value === undefined) {
-            return this._params = value
+            this._params = value;
+            return;
         }
 
-        throw new Error(`params must be ommited | array | object`)
+        throw new Error('params must be ommited | array | object');
     }
 
     get id() {
-        return this._id
+        return this._id;
     }
-    
+
     set id(value) {
         if (typeof value === 'number') {
             if (Number.isInteger(value)) {
-                return this._id = value
+                this._id = value;
+                return;
             }
 
-            throw new Error(`id must be integer, got ${value}`)
+            throw new Error(`id must be integer, got ${value}`);
         }
 
         if (typeof value === 'string') {
             if (value.length > 0) {
-                return this._id = value
+                this._id = value;
+                return;
             }
 
-            throw new Error(`id must be not empty string`)
+            throw new Error('id must be not empty string');
         }
 
         if (value === null || value === undefined) {
-            return this._id = value
+            this._id = value;
+            return;
         }
 
-        throw new Error(`id must be ommited | int | string | null`)
+        throw new Error('id must be ommited | int | string | null');
     }
 
     toString() {
@@ -69,9 +74,9 @@ class RequestMessage extends Message {
             ...super.toString(),
             method: this.method,
             params: this.params,
-            id: this.id
-        }
+            id: this.id,
+        };
     }
 }
 
-export default RequestMessage
+export default RequestMessage;

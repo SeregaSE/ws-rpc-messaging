@@ -1,11 +1,11 @@
 const recieveAPI = {
     handleReceiverError(error) {
-        this.emit('recieve-error', error, this)
+        this.emit('recieve-error', error, this);
     },
 
     handleReceiverRequest(request) {
-        this.emit('request', request, this)
-    }
-}
+        this.emit('request', request, this);
+    },
+};
 
-export default recieveAPI
+export default recieveAPI;

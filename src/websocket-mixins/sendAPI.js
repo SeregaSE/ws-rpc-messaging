@@ -1,4 +1,4 @@
-import { JSONRPC_VERSION } from '../constants'
+import { JSONRPC_VERSION } from '../constants';
 
 const sendAPI = {
     _send(message) {
@@ -10,9 +10,9 @@ const sendAPI = {
 
         this.send(JSON.stringify({
             jsonrpc: JSONRPC_VERSION,
-            ...message
-        }))
-    }
+            ...message,
+        }));
+    },
 };
 
-export default sendAPI
+export default sendAPI;

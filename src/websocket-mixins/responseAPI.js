@@ -1,4 +1,4 @@
-import sendAPI from './sendAPI'
+import sendAPI from './sendAPI';
 
 const responseAPI = {
     __proto__: sendAPI,
@@ -6,9 +6,9 @@ const responseAPI = {
     respond(id, result) {
         super._send({
             id,
-            result
-        })
-    }
-}
+            result,
+        });
+    },
+};
 
-export default responseAPI
+export default responseAPI;

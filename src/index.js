@@ -1,6 +1,6 @@
-import ws from 'ws'
-import Server from './server'
-import Client from './node-websocket'
+import ws from 'ws';
+import Server from './server';
+import Client from './node-websocket';
 
 export default {
     Server,
@@ -9,4 +9,4 @@ export default {
     OPEN: ws.OPEN,
     CLOSING: ws.CLOSING,
     CLOSED: ws.CLOSED,
-}
+};

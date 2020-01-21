@@ -1,11 +1,19 @@
-import withReciever from './withReciever'
-import { errorAPI, recieveAPI, requestAPI, responseAPI } from './websocket-mixins'
+import withReciever from './withReciever';
+import {
+    errorAPI, recieveAPI, requestAPI, responseAPI,
+} from './websocket-mixins';
 
 const withRPC = (ws, overrides = {}) => {
-    Object.assign(ws.__proto__, errorAPI, recieveAPI, requestAPI, responseAPI, overrides);
-    withReciever(ws)
-    ws.onmessage = ws.__onMessage
+    Object.assign(
+        Object.getPrototypeOf(ws),
+        errorAPI,
+        recieveAPI,
+        requestAPI,
+        responseAPI,
+        overrides,
+    );
+    withReciever(ws);
     return ws;
-}
+};
 
-export default withRPC
+export default withRPC;
