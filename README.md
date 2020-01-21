@@ -8,6 +8,21 @@ TO DO:
 * bulk messaging
 * optimize build, make cjs for node, iife for cdn, cjs for frontend build systems
 
+## Installing
+
+using NODE
+
+`npm install --save ws-rpc-messaging`
+
+`const { Server, Client } = require('ws-rpc-messaging')`
+
+using CDN
+
+`<script src="https://unpkg.com/ws-rpc-messaging@0.0.5/lib/ws-rpc-messaging.js"></script>`
+
+`<script src="https://unpkg.com/ws-rpc-messaging@0.0.5/lib/ws-rpc-messaging.min.js"></script>`
+
+
 ## ws-rpc-messaging provide json-rpc 2.0 like way to communicate between client and server via websockets
 
 Lib has been written to use in complex with [ws package](https://www.npmjs.com/package/ws) but you could use any other ws realization with same api.
