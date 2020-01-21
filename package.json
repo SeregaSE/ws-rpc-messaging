@@ -1,6 +1,6 @@
 {
   "name": "ws-rpc-messaging",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "json rpc api for ws data transfer",
   "main": "lib/index.js",
   "scripts": {
