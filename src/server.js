@@ -15,7 +15,7 @@ class RPCWebSocketServer extends ws.Server {
     }
 
     createClientReceiverErrorHandle = (client) => (error) => {
-        this.emit('error', error, client, this)
+        this.emit('recieve-error', error, client, this)
     }
 
     createClientReceiverRequestHandle = (client) => (request) => {

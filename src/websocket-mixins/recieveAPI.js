@@ -1,6 +1,6 @@
 const recieveAPI = {
     handleReceiverError(error) {
-        this.emit('error', error, this)
+        this.emit('recieve-error', error, this)
     },
 
     handleReceiverRequest(request) {

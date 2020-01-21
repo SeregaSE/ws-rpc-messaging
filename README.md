@@ -3,22 +3,30 @@
 First realese (1.0.0) is planned on 15.02.2020
 
 TO DO:
-- write tets, set up ci/cd (mb travis)
-- call helper
-- bulk messaging
-- find better solution to proxy ws/wss api to own classes (mb use Proxy)
-- check cjs browser module
+* write tets, set up ci/cd (mb travis)
+* call helper
+* bulk messaging
+* find better solution to proxy ws/wss api to own classes (mb use Proxy)
+* check cjs browser module
 
 ## ws-rpc-messaging provide json-rpc 2.0 like way to communicate between client and server via websockets
 
 Lib has been written to use in complex with [ws package](https://www.npmjs.com/package/ws) but you could use any other ws realization with same api.
 
-- [How to use](#how-to-use)
-- [Server](#server)
-- [Node client](#node-client)
-- [Browser client](#browser-client)
-- [Broadcast](#broadcast)
-- [Usefull links](#usefull-links)
+* [How to use](#how-to-use)
+* [Server](#server)
+  * [recieve-error event](#event:-'recieve-error')
+  * [request event](#event:-'request')
+* [Node client](#node-client)
+  * [recieve-error event](#event-(client):-'recieve-error')
+  * [request event](#event-(client):-'request')
+  * [notify](#сlient.notify(method,-params))
+  * [request](#сlient.request(method,-params))
+  * [respond](#client.respond(id,-result))
+  * [throw](#client.throw(id,-error))
+* [Browser client](#browser-client)
+* [Broadcast](#broadcast)
+* [Usefull links](#usefull-links)
 
 ## How to use
 
@@ -26,19 +34,26 @@ For working examples and more information [see examples](/examples)
 
 ### Server
 
+Server class extends [WebSocket.Server from ws pacakge](https://github.com/websockets/ws/blob/master/doc/ws.md#class-websocketserver)
+
+#### Event: 'recieve-error'
+
+* error  {Error}
+* client {Client}, sender
+* server {Server}, self-link for server
+
+Emitted when can't parse recieved message
+
+#### Event: 'request'
+
+* request {Object} json-rpc 2.0 Request object
+* client  {Client}, sender
+* server  {Client}, self-link for server
+
 ```js
-const WebSocket = require('ws')
 const { Server } = require('../../lib')
 
-/**
- * Create and configure any websocket server you want
- */
-const wss = new WebSocket.Server({ port: 3000 })
-/**
- * Provide it to RPCServer
- * RPCServer will handle incoming request and helps you to respond on recieved messages or send own requests  
- */
-const rpc = new Server(wss)
+const rpc = new Server({ port: 3000 })
 
 const fns = {
     sum: (...args) => args.reduce((acc, n) => acc + n, 0),
@@ -55,7 +70,7 @@ rpc.on('request', (request, client) => {
     if (fn) {
         const result = fn(...request.params)
 
-        /** request.id is important!!! it helps clients to resolve request */
+        /** request.id is important!!! */
         client.respond(request.id, result)
 
         return
@@ -66,25 +81,70 @@ rpc.on('request', (request, client) => {
         client.throwNotFound(request.id, `method ${request.method} not found`)
     }
 })
+
 ```
 
 ### Node client
 
+Client class extends [WebSocket from ws pacakge](https://github.com/websockets/ws/blob/master/doc/ws.md#class-websocket)
+
+#### Event (client): 'recieve-error'
+
+* error  {Error}
+* client {Client}, self-link for client
+
+Emitted when can't parse recieved message
+
+#### Event (client): 'request'
+
+* request {Object} json-rpc 2.0 Request object
+* client  {Client}, self-link for client
+
+#### Client.notify(method, params)
+
+* method {String} json-rpc 2.0 method
+* params {Object} json-rpc 2.0 params
+
+Send notification message to reciever. Reciever emit 'request' event.
+
+Notification DO NOT expect to have a response!
+
+#### Client.request(method, params) Promise
+
+* method {String} json-rpc 2.0 method
+* params {Object} json-rpc 2.0 params
+
+Send request message to reciever. Reciever emit 'request' event. Return promise which will be resolved with JSON-RPC 2.0 RESPONSE object or rejected with JSON-RPC 2.0 ERROR object.
+
+#### Client.respond(id, result)
+
+* id     {String} json-rpc 2.0 request id, (string, int, null)
+* result {Object} json-rpc 2.0 result
+
+Send response message to request sender. Resolve Promise returned by the Client.request with the same id as in request.
+
+#### Client.throw(id, error)
+
+* id    {String} json-rpc 2.0 request id, (string, int, null)
+* error {Object} json-rpc 2.0 error
+
+Send error message to request sender. Reject Promise returned by the Client.request with the same id as in request.
+
+Other helpers to respond with errors
+
+* throwRPCError(id, code number, message string, data string)
+* throwParseError(id, data string)
+* throwInvalidRequest(id, data string)
+* throwNotFound(id, data string)
+* throwInvalidParams(id, data string)
+* throwInternalError(id, data string)
+
 ```js
-const WebSocket = require('ws')
 const { Client } = require('../../lib')
 
-/**
- * Create and configure any websocket you want
- */
-const ws = new WebSocket('ws://localhost:3000')
-/**
- * Provide it to RPCClient
- * RPCClient will handle incoming request and helps you to respond on recieved messages or send own requests  
- */
-const client = new Client(ws)
+const client = new Client('ws://localhost:3000')
 
-ws.on('open', () => {
+client.on('open', () => {
     client.request('sum', [1, 3, 5])
         .then(console.log) // 9
         .catch(console.error)
@@ -100,6 +160,8 @@ ws.on('open', () => {
 ```
 
 ### Browser client
+
+Browser Client class extends native WebSocket. Other API is the same as [Node Client](#node-client)
 
 ```js
 /**
@@ -142,5 +204,5 @@ rpc.on('request', (request, origin, server) => {
 
 ## Usefull links
 
-- [ws package](https://www.npmjs.com/package/ws)
-- [json-rpc 2.0 specification](https://www.jsonrpc.org/specification)
+* [ws package](https://www.npmjs.com/package/ws)
+* [json-rpc 2.0 specification](https://www.jsonrpc.org/specification)
