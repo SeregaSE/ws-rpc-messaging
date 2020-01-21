@@ -1,8 +1,6 @@
-const WebSocket = require('ws')
 const { Server } = require('../../lib')
 
-const wss = new WebSocket.Server({ port: 3000 })
-const rpc = new Server(wss)
+const rpc = new Server({ port: 3000 })
 
 const fns = {
     sum: (...args) => args.reduce((acc, n) => acc + n, 0),
@@ -18,10 +16,10 @@ rpc.on('request', (request, client) => {
 
     if (fn) {
         const result = fn(...request.params)
-
+        
         /** request.id is important!!! */
         client.respond(request.id, result)
-        
+
         return
     }
     

@@ -1,8 +1,6 @@
-const WebSocket = require('ws')
-const { Server } = require('../../lib')
+const { Server, OPEN } = require('../../lib')
 
-const wss = new WebSocket.Server({ port: 8080 })
-const rpc = new Server(wss)
+const rpc = new Server({ port: 3000 })
 
 let balance = 0;
 
@@ -16,7 +14,7 @@ rpc.on('request', (request, origin, server) => {
         
         /** broadcast balance update to all connected clients */
         server.clients.forEach((client) => {
-            if (client.readyState === WebSocket.OPEN) {
+            if (client.readyState === OPEN) {
                 client.notify('balance.update', { balance });
             }
         });

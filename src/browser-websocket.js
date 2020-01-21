@@ -1,18 +1,10 @@
-import RPCWebSocket from './websocket'
+import withBrowserRPC from './withBrowserRPC';
 
-class BrowserRPCWebSocket extends RPCWebSocket {
+class RPCWebSocket extends WebSocket {
     constructor(...args) {
-        super(new WebSocket(...args))
-        this.onmessage = this._onMessage
-    }
-
-    _onMessage = (event) => {
-        this._reciever.onMessage(event.data)
-    }
-    
-    close(...args) {
-        this._ws.close(...args)
+        super(...args)
+        withBrowserRPC(this)
     }
 }
 
-export default BrowserRPCWebSocket
+export default RPCWebSocket

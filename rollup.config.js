@@ -7,10 +7,9 @@ const { sizeSnapshot } = require('rollup-plugin-size-snapshot')
 module.exports = [
     {
         input: './src/index.js',
-        output: {
-            file: 'lib/index.js',
-            format: 'cjs'
-        },
+
+        external: ['uuid/v4', 'ws'],
+
         plugins: [
             resolve({
                 // pass custom options to the resolve plugin
@@ -21,39 +20,38 @@ module.exports = [
             babel({
                 babelrc: false,
                 exclude: 'node_modules/**',
-                presets: [['@babel/preset-env', { modules: false }]],
+                presets: [
+                    [
+                        '@babel/preset-env',
+                        {
+                            modules: false,
+                            targets: {
+                                node: true,
+                            },
+                        }
+                    ]
+                ],
                 plugins: [
+                    // '@babel/plugin-transform-modules-commonjs',
                     '@babel/plugin-proposal-class-properties',
                 ]
             }),
             sizeSnapshot()
         ],
-        external: ['uuid/v4']
+
+        output: {
+            file: 'lib/index.js',
+            format: 'cjs'
+        }
     },
+
     {
-        input: './src/browser.js',
-        output: [
-            {
-                file: 'lib/ws-rpc-messaging.cjs.js',
-                format: 'cjs'
-            },
-            {
-                file: 'lib/ws-rpc-messaging.cjs.min.js',
-                format: 'cjs',
-                plugins: [terser()]
-            },
-            {
-                file: 'lib/ws-rpc-messaging.js',
-                format: 'iife',
-                name: 'RPCClient',
-            },
-            {
-                file: 'lib/ws-rpc-messaging.min.js',
-                format: 'iife',
-                name: 'RPCClient',
-                plugins: [terser()]
-            },
-        ],
+        input: './src/browser-websocket.js',
+
+        globals: {
+            WebSocket: 'WebSocket'
+        },
+
         plugins: [
             resolve({
                 browser: true
@@ -67,6 +65,21 @@ module.exports = [
                 ]
             }),
             commonjs(),
-            sizeSnapshot()        ],
+            sizeSnapshot()
+        ],
+
+        output: [
+            {
+                file: 'lib/ws-rpc-messaging.js',
+                format: 'iife',
+                name: 'RPCClient',
+            },
+            {
+                file: 'lib/ws-rpc-messaging.min.js',
+                format: 'iife',
+                name: 'RPCClient',
+                plugins: [terser()]
+            },
+        ]
     }
 ];

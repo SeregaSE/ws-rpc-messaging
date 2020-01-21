@@ -1,11 +1,12 @@
-import * as constants from './constants'
-import WebSocketServer from './websocket-server'
-import NodeRPCWebSocket from './node-websocket'
-import BrowserRPCWebSocket from './browser-websocket'
+import ws from 'ws'
+import Server from './server'
+import Client from './node-websocket'
 
 export default {
-    Server: WebSocketServer,
-    Client: NodeRPCWebSocket,
-    BrowserClient: BrowserRPCWebSocket,
-    ...constants
+    Server,
+    Client,
+    CONNECTING: ws.CONNECTING,
+    OPEN: ws.OPEN,
+    CLOSING: ws.CLOSING,
+    CLOSED: ws.CLOSED,
 }

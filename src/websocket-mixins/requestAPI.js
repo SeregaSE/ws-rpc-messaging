@@ -17,7 +17,7 @@ const requestAPI = {
         }
 
         const id = uuid()
-
+        
         return new Promise((resolve, reject) => {
             this._pendings[id] = {
                 resolve,
@@ -32,14 +32,14 @@ const requestAPI = {
         })
     },
 
-    __handleRecieverResponse(message) {
+    handleRecieverResponse(message) {
         if (this._hasRequest(message.id)) {
             this._pendings[message.id].resolve(message.result)
             this._deleteRequest(message.id)
         }
     },
 
-    __handleRecieverResponseError(message) {
+    handleRecieverResponseError(message) {
         if (this._hasRequest(message.id)) {
             this._pendings[message.id].reject(message.error)
             this._deleteRequest(message.id)

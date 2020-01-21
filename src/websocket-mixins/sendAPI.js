@@ -8,7 +8,7 @@ const sendAPI = {
         //     ...message
         // }))
 
-        this._ws.send(JSON.stringify({
+        this.send(JSON.stringify({
             jsonrpc: JSONRPC_VERSION,
             ...message
         }))
