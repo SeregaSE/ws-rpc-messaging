@@ -6,7 +6,6 @@ TO DO:
 
 * write tests, set up ci/cd (mb travis)
 * bulk messaging
-* optimize build, make cjs for node, iife for cdn, cjs for frontend build systems
 
 ## Installing
 
