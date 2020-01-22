@@ -31,7 +31,7 @@ class RPCWebSocket extends EventEmitter {
         this.receiver.on(REQUEST, this._onReceievRequest);
         this.receiver.on(RESPONSE, this._onReceievResponse);
         this.receiver.on(NOTIFICATION, this._onReceievNotify);
-        this.ws.on('message', this.receiver.onMessage);
+        this.addEventListener('message', this.receiver.onMessage);
     }
 
     get readyState() {
