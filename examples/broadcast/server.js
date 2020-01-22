@@ -1,29 +1,30 @@
-const { Server, OPEN } = require('../../lib')
+const WebSocket = require('../../lib');
 
-const rpc = new Server({ port: 3000 })
+const server = new WebSocket.Server({ port: 3000 });
 
 let balance = 0;
 
-rpc.on('connection', client => {
+server.on('connection', (client) => {
     client.request('balance.update', { balance })
-})
+        .catch(console.error); // timeout because clients do not respond
+});
 
-rpc.on('request', (request, origin, server) => {
+server.on('request', (request, origin, self) => {
     if (request.method === 'balance.add') {
-        balance += request.params.amount
-        
+        balance += request.params.amount;
+
         /** broadcast balance update to all connected clients */
-        server.clients.forEach((client) => {
-            if (client.readyState === OPEN) {
+        self.clients.forEach((client) => {
+            if (client.readyState === WebSocket.OPEN) {
                 client.notify('balance.update', { balance });
             }
         });
 
-        return
+        return;
     }
 
     /** throw not found error if have request id, it's not notification request */
     if (request.id) {
-        origin.throwNotFound(request.id, `method ${request.method} not found`)
+        origin.throwNotFound(request.id, `method ${request.method} not found`);
     }
-})
+});

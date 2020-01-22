@@ -12,4 +12,4 @@ export const REQUEST = 'request';
 export const RESPONSE = 'response';
 export const NOTIFICATION = 'notify';
 /* global */
-export const DEFAULT_REQUEST_TIMEOUT_MILLISECONDS = 2500;
+export const DEFAULT_REQUEST_TIMEOUT_MILLISECONDS = 5000;

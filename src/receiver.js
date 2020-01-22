@@ -8,7 +8,7 @@ import messageFactory from './message-factory';
 class Receiver extends EventEmitter {
     onMessage = (string) => {
         /** Debug all recieved raw data */
-        // console.log('recieve', string)
+        // console.log('recieve', string);
         let json;
 
         try {

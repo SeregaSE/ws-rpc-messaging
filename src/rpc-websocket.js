@@ -34,9 +34,13 @@ class RPCWebSocket extends EventEmitter {
         this.ws.on('message', this.receiver.onMessage);
     }
 
+    get readyState() {
+        return this.ws.readyState;
+    }
+
     send(message) {
         /** Debug all sended data */
-        // console.log(JSON.stringify(message));
+        // console.log('send', JSON.stringify(message));
         this.ws.send(JSON.stringify(message));
     }
 
