@@ -1,12 +1,11 @@
 import ws from 'ws';
-import Server from './server';
-import Client from './node-websocket';
+import Server from './rpc-server';
+import WebSocket from './ws-node-rpc-websocket';
 
-export default {
-    Server,
-    Client,
-    CONNECTING: ws.CONNECTING,
-    OPEN: ws.OPEN,
-    CLOSING: ws.CLOSING,
-    CLOSED: ws.CLOSED,
-};
+WebSocket.CONNECTING = ws.CONNECTING;
+WebSocket.OPEN = ws.OPEN;
+WebSocket.CLOSING = ws.CLOSING;
+WebSocket.CLOSED = ws.CLOSED;
+WebSocket.Server = Server;
+
+export default WebSocket;

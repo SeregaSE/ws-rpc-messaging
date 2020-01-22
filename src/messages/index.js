@@ -1,3 +1,4 @@
-export { default as ErrorMessage } from './error';
-export { default as RequestMessage } from './request';
-export { default as ResponseMessage } from './response';
+export { default as Request } from './request';
+export { default as Notification } from './notification';
+export { default as ResponseError } from './response-error';
+export { default as ResponseResult } from './response-result';
