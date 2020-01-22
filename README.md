@@ -8,7 +8,7 @@ I'am trying to keep package simple and lightweight. [WS package](https://www.npm
 
 ## LIB IN DEV
 
-First realese (1.0.0) is planned on 15.02.2020
+First realese (1.0.0) is planned on 01.03.2020
 
 TO DO:
 
@@ -23,17 +23,17 @@ TO DO FEATURES:
 
 * [How to use](#installing)
 * [How to use](#examples)
-* [Server](#server)
-  * [recieve-error event](#event-recieve-error)
+* [Server](#class-websocketserver)
   * [request event](#event-request)
-* [Node client](#node-client)
-  * [recieve-error event](#event-client-recieve-error)
+  * [error event](#event-error)
+* [Node client](#class-websocket)
+  * [recieve-error event](#event-client-error)
   * [request event](#event-client-request)
   * [notify](#clientnotifymethod-params)
   * [request](#clientrequestmethod-params-promise)
   * [respond](#clientrespondid-result)
   * [throw](#clientthrowid-error)
-* [Browser client](#browser-client)
+* [Browser client](#class-browserwebsocket)
 * [Broadcast](#broadcast)
 * [Usefull links](#usefull-links)
 
@@ -55,63 +55,75 @@ For working examples and details [see examples](/examples)
 
 ## API
 
-### Server
+### Class: WebSocket.Server
 
-Server class extends [WebSocket.Server from ws package](https://github.com/websockets/ws/blob/master/doc/ws.md#class-websocketserver)
+WebSocket.Server class is built using [WebSocket.Server from ws package](https://github.com/websockets/ws/blob/master/doc/ws.md#class-websocketserver). It has the same constructor.
+
+WebSocket.Server proxy next properties and methods to [WebSocket.Server](https://github.com/websockets/ws/blob/master/doc/ws.md#class-websocketserver):
+
+* [new WebSocket.Server(options[, callback])](https://github.com/websockets/ws/blob/master/doc/ws.md#new-websocketserveroptions-callback)
+* [Event: 'close'](https://github.com/websockets/ws/blob/master/doc/ws.md#event-close)
+* [Event: 'error'](https://github.com/websockets/ws/blob/master/doc/ws.md#event-error)
+* [Event: 'headers'](https://github.com/websockets/ws/blob/master/doc/ws.md#event-headers)
+* [Event: 'listening'](https://github.com/websockets/ws/blob/master/doc/ws.md#event-listening)
+* [server.address()](https://github.com/websockets/ws/blob/master/doc/ws.md#serveraddress)
+* [server.close([callback])](https://github.com/websockets/ws/blob/master/doc/ws.md#serverclosecallback)
+* [server.handleUpgrade(request, socket, head, callback)](https://github.com/websockets/ws/blob/master/doc/ws.md#serverhandleupgraderequest-socket-head-callback)
+* [server.shouldHandle(request)](https://github.com/websockets/ws/blob/master/doc/ws.md#servershouldhandlerequest)
 
 #### Event: 'request'
 
-* request {Object} json-rpc 2.0 Request object
-* client  {Client}, sender
-* server  {Client}, self-link for server
+* request {Object}  json-rpc 2.0 Request object
+* client  {Client}, []instanceof WebSocket class from this package
+* server  {Client}, instanceof WebSocket.server from this package
 
-#### Event: 'recieve-error'
+#### Event: 'error'
 
 * error  {Error}
 * client {Client}, sender
 * server {Server}, self-link for server
 
-Emitted when can't parse recieved message
+Emitted when an error occurs on the underlying server. For example can't parse incoming message.
 
 ```js
-const { Server } = require('ws-rpc-messaging')
+const WebSocket = require('ws-rpc-messaging')
 
-const rpc = new Server({ port: 3000 })
+const server = new WebSocket.Server({ port: 3000 });
 
 const fns = {
     sum: (...args) => args.reduce((acc, n) => acc + n, 0),
     sub: (...args) => args.slice(1).reduce((acc, n) => acc - n, args[0]),
-}
+};
 
 /**
  * You can use routing or write any logic you want here...
  * Just don't forget to send response or error if request.id !== undefined
  */
-rpc.on('request', (request, client) => {
-    const fn = fns[request.method]
+server.on('request', (request, client) => {
+    const fn = fns[request.method];
 
     if (fn) {
-        const result = fn(...request.params)
-
+        const result = fn(...request.params);
         /** request.id is important!!! */
-        client.respond(request.id, result)
+        client.respond(request.id, result);
 
-        return
+        return;
     }
 
     /** throw not found error if have request id, it's not notification request */
     if (request.id) {
-        client.throwNotFound(request.id, `method ${request.method} not found`)
+        client.throwNotFound(request.id, `method ${request.method} not found`);
     }
-})
-
+});
 ```
 
-### Node client
+### Class: WebSocket
 
-Client class extends [WebSocket from ws package](https://github.com/websockets/ws/blob/master/doc/ws.md#class-websocket)
+WebSocket class is built using [WebSocket from ws package](https://github.com/websockets/ws/blob/master/doc/ws.md#class-websocket). It has the same constructor.
 
-#### Event (client): 'recieve-error'
+WebSocket proxy all properties and methods to [WebSocket.Server](https://github.com/websockets/ws/blob/master/doc/ws.md#class-websocket). (exclude rarely used properties, but also available `WebSocket.ws[any_real_prop]`)
+
+#### Event (client): 'error'
 
 * error  {Error}
 * client {Client}, self-link for client
@@ -163,75 +175,64 @@ Other helpers to respond with errors
 * throwInternalError(id, data string)
 
 ```js
-const { Client } = require('ws-rpc-messaging')
+const WebSocket = require('ws-rpc-messaging')
 
-const client = new Client('ws://localhost:3000')
+const ws = new WebSocket('ws://localhost:3000');
 
-client.on('open', () => {
-    client.request('sum', [1, 3, 5])
+ws.on('open', () => {
+    ws.request('sum', [1, 3, 5])
         .then(console.log) // 9
-        .catch(console.error)
+        .catch(console.error);
 
-    client.request('sub', [10, 2, 3])
+    ws.request('sub', [10, 2, 3])
         .then(console.log) // 5
-        .catch(console.error)
+        .catch(console.error);
 
-    client.request('multiply', [2, 2, 3])
+    ws.request('multiply', [2, 2, 3])
         .then(console.log)
-        .catch(console.error) // not found
-})
+        .catch(console.error); // not found
+});
 ```
 
-### Browser client
+### Class BrowserWebSocket
 
-Browser client class extends native WebSocket. Instead request and reciever-error events it has properties as handlers.
+BrowserWebSocket class is build using native WebSocket.
 
-#### Property onrecieveerror
+API is the same as [Class: WebSocket](#class-websocket)
 
-* error  {Error}
-* client {Client}, self-link for client
+```html
+<script src="https://unpkg.com/ws-rpc-messaging/lib/ws-rpc-messaging.min.js" type="text/javascript"></script>
 
-Emitted when can't parse recieved message
+<script type="text/javascript">
+    const ws = new WebSocket('ws://localhost:3000');
 
-#### Property request
+    ws.on('open', () => {
+        ws.request('sum', [1, 3, 5])
+            .then(console.log) // 9
+            .catch(console.error);
 
-* request {Object} json-rpc 2.0 Request object
-* client  {Client}, self-link for client
+        ws.request('sub', [10, 2, 3])
+            .then(console.log) // 5
+            .catch(console.error);
 
-Other API is the same as [Node Client](#node-client)
-
-```js
-/**
- * Browser client has api like native WebSocket
- * If you are using lib via script <script src="../../lib/ws-rpc-messaging.min.js" type="text/javascript"></script>
- * window.RPCClient will be browser client
- */
-const client = new RPCClient('ws://localhost:3000')
-
-client.onopen = () => {
-    client.request('sum', [1, 3, 5])
-        .then(console.log) // 9
-        .catch(console.error)
-
-    client.request('sub', [10, 2, 3])
-        .then(console.log) // 5
-        .catch(console.error)
-
-    client.request('multiply', [2, 2, 3])
-        .then(console.log)
-        .catch(console.error) // not found
-}
+        ws.request('multiply', [2, 2, 3])
+            .then(console.log)
+            .catch(console.error); // not found
+    });
+</script>
 ```
 
 ### Broadcast
 
+For more information check https://github.com/websockets/ws#server-broadcast
+
 ```js
-/**
- * For broabcast use server.clients
- * See https://github.com/websockets/ws#server-broadcast
- */
-rpc.on('request', (request, origin, server) => {
-    server.clients.forEach((client) => {
+const WebSocket = require('ws-rpc-messaging')
+
+const server = new WebSocket.Server({ port: 3000 });
+
+server.on('request', (request, origin, self) => {
+    self.clients.forEach((client) => {
         if (client.readyState === WebSocket.OPEN) {
             client.notify('to.something', { data: 'important message' });
         }
