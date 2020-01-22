@@ -11,13 +11,13 @@
   },
   "lib/ws-rpc-messaging.js": {
     "bundled": 31043,
-    "minified": 12703,
-    "gzipped": 3827
+    "minified": 12702,
+    "gzipped": 3826
   },
   "lib/ws-rpc-messaging.min.js": {
-    "bundled": 12703,
-    "minified": 12487,
-    "gzipped": 3736
+    "bundled": 12702,
+    "minified": 12486,
+    "gzipped": 3734
   },
   "lib/ws-rpc-messaging.esm.js": {
     "bundled": 28447,
