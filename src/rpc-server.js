@@ -52,7 +52,7 @@ class RPCServer extends EventEmitter {
         rpc.on('request', this.onClientRequest(rpc));
 
         rpc.on('close', () => {
-            this.clients.remove(rpc);
+            this.clients.delete(rpc);
         });
 
         this.clients.add(rpc);

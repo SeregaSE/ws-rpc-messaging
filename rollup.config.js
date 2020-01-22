@@ -44,7 +44,7 @@ module.exports = [
     },
 
     {
-        input: './src/browser-websocket.js',
+        input: './src/browser-rpc-websocket.js',
 
         globals: {
             WebSocket: 'WebSocket'
@@ -63,12 +63,12 @@ module.exports = [
             {
                 file: 'lib/ws-rpc-messaging.js',
                 format: 'iife',
-                name: 'RPCClient',
+                name: 'RPCWebSocket',
             },
             {
                 file: 'lib/ws-rpc-messaging.min.js',
                 format: 'iife',
-                name: 'RPCClient',
+                name: 'RPCWebSocket',
                 plugins: [terser()]
             },
         ]

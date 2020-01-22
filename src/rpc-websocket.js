@@ -10,7 +10,14 @@ import sleep from './sleep';
 import Receiver from './receiver';
 import EventEmitter from './event-emitter';
 import messageFactory from './message-factory';
-import { RPCError, InternalError } from './errors';
+import {
+    InternalError,
+    InvalidParamsError,
+    InvalidRequestError,
+    NotFoundError,
+    ParseError,
+    RPCError,
+} from './errors';
 
 const proxyEvents = ['open', 'close', 'error', 'message'];
 
@@ -43,6 +50,26 @@ class RPCWebSocket extends EventEmitter {
 
     throwError(id, error) {
         this.send(messageFactory.CreateError(id, error));
+    }
+
+    throwInternalError(id, data) {
+        this.throwError(id, new InternalError(data));
+    }
+
+    throwInvalidParams(id, data) {
+        this.throwError(id, new InvalidParamsError(data));
+    }
+
+    throwInvalidRequest(id, data) {
+        this.throwError(id, new InvalidRequestError(data));
+    }
+
+    throwNotFound(id, data) {
+        this.throwError(id, new NotFoundError(data));
+    }
+
+    throwParseError(id, data) {
+        this.throwError(id, new ParseError(data));
     }
 
     notify(method, params) {
