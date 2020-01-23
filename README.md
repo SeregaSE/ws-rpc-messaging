@@ -204,7 +204,7 @@ API is the same as [Class: WebSocket](#class-websocket)
 <script src="https://unpkg.com/ws-rpc-messaging/lib/ws-rpc-messaging.min.js" type="text/javascript"></script>
 
 <script type="text/javascript">
-    const ws = new WebSocket('ws://localhost:3000');
+    const ws = new RPCWebSocket('ws://localhost:3000');
 
     ws.on('open', () => {
         ws.request('sum', [1, 3, 5])
