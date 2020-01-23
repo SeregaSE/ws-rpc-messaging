@@ -19,7 +19,7 @@ import {
     RPCError,
 } from './errors';
 
-const proxyEvents = ['open', 'close', 'error', 'message'];
+const proxyEvents = ['open', 'close', 'message'];
 
 class RPCWebSocket extends EventEmitter {
     constructor(ws) {
@@ -31,7 +31,8 @@ class RPCWebSocket extends EventEmitter {
         this.receiver.on(REQUEST, this._onReceievRequest);
         this.receiver.on(RESPONSE, this._onReceievResponse);
         this.receiver.on(NOTIFICATION, this._onReceievNotify);
-        this.addEventListener('message', this.receiver.onMessage);
+        this.ws.on('error', this._onWSError);
+        this.ws.on('message', this.receiver.onMessage);
     }
 
     get readyState() {
@@ -106,33 +107,6 @@ class RPCWebSocket extends EventEmitter {
         });
     }
 
-    _onReceievError = (message) => {
-        if (message.id !== null) {
-            if (this.pendings[message.id]) {
-                this.pendings[message.id].reject(message.error);
-                delete this.pendings[message.id];
-            }
-        } else {
-            this.emit('error', message, this);
-        }
-    }
-
-    _onReceievResponse = (message) => {
-        if (this.pendings[message.id]) {
-            this.pendings[message.id].resolve(message.result);
-            delete this.pendings[message.id];
-        }
-    }
-
-    /* if change event to notication, it will be simple to separate incoming requests by type */
-    _onReceievNotify = (message) => {
-        this.emit('request', message, this);
-    }
-
-    _onReceievRequest = (message) => {
-        this.emit('request', message, this);
-    }
-
     on(...args) {
         this.addEventListener(...args);
     }
@@ -155,6 +129,37 @@ class RPCWebSocket extends EventEmitter {
         } else {
             super.remove(event, handler);
         }
+    }
+
+    _onReceievError = (message) => {
+        if (message.id !== null) {
+            if (this.pendings[message.id]) {
+                this.pendings[message.id].reject(message.error);
+                delete this.pendings[message.id];
+            }
+        } else {
+            this.emit('error', message, this);
+        }
+    }
+
+    _onWSError = (error) => {
+        this.emit('error', error, this);
+    }
+
+    _onReceievResponse = (message) => {
+        if (this.pendings[message.id]) {
+            this.pendings[message.id].resolve(message.result);
+            delete this.pendings[message.id];
+        }
+    }
+
+    /* if change event to notication, it will be simple to separate incoming requests by type */
+    _onReceievNotify = (message) => {
+        this.emit('request', message, this);
+    }
+
+    _onReceievRequest = (message) => {
+        this.emit('request', message, this);
     }
 
     close(...args) {

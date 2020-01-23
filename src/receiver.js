@@ -15,6 +15,7 @@ class Receiver extends EventEmitter {
             json = JSON.parse(string);
         } catch (error) {
             this.onMessageCatch(error);
+            return;
         }
 
         if (!Array.isArray(json)) {
@@ -26,7 +27,7 @@ class Receiver extends EventEmitter {
                 const [type, message] = parse(data);
 
                 /** Debug all recieved and sucess parsed messages */
-                // console.log('recieve', emittedEvent, emittedMessage)
+                // console.log('recieve', type, message);
                 this.emit(type, message);
             } catch (error) {
                 this.onMessageCatch(error, data);
@@ -44,7 +45,9 @@ class Receiver extends EventEmitter {
         /* eslint-disable-next-line no-empty */
         } catch (_) {}
 
+
         const message = messageFactory.CreateError(id, new ParseError(error.message));
+
         this.emit(ERROR, message);
     }
 }

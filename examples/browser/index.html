@@ -15,8 +15,12 @@
     <script type="text/javascript">
         const ws = new RPCWebSocket('ws://localhost:3000')
 
+        const sayHi = (...words) => console.log(`${words.join(' ')}!`);
+
         ws.on('request', (request) => {
-            console.log(request.id, request.method, request.params)
+            if (request.method === 'say') {
+                sayHi(...request.params);
+            }
         })
 
         ws.on('open', () => {

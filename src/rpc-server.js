@@ -2,13 +2,14 @@ import ws from 'ws';
 import NodeRPCWebSocket from './node-rpc-websocket';
 import EventEmitter from './event-emitter';
 
-const proxyEvents = ['close', 'error', 'headers', 'listening'];
+const proxyEvents = ['close', 'headers', 'listening'];
 
 class RPCServer extends EventEmitter {
     constructor(...args) {
         super();
         this.clients = new Set();
         this.wss = new ws.Server(...args);
+        this.wss.on('error', this._onError);
         this.wss.on('connection', this._onConnection);
     }
 
@@ -47,10 +48,11 @@ class RPCServer extends EventEmitter {
     _onConnection = (client) => {
         const rpc = new NodeRPCWebSocket(client);
 
-        rpc.on('error', this.onClientError(rpc));
+        const onClientError = this.createOnClientError(rpc);
+        const onClientRequest = this.createOnClientRequest(rpc);
 
-        rpc.on('request', this.onClientRequest(rpc));
-
+        rpc.on('error', onClientError);
+        rpc.on('request', onClientRequest);
         rpc.on('close', () => {
             this.clients.delete(rpc);
         });
@@ -59,11 +61,15 @@ class RPCServer extends EventEmitter {
         this.emit('connection', rpc);
     }
 
-    onClientError = (client) => (error) => {
+    _onError = (error) => {
+        this.emit('error', error);
+    }
+
+    createOnClientError = (client) => (error) => {
         this.emit('error', error, client, this);
     }
 
-    onClientRequest = (client) => (request) => {
+    createOnClientRequest = (client) => (request) => {
         this.emit('request', request, client, this);
     }
 }

@@ -18,7 +18,6 @@ server.on('request', (request, client) => {
         const result = fn(...request.params);
         /** request.id is important!!! */
         client.respond(request.id, result);
-
         return;
     }
 
@@ -26,4 +25,8 @@ server.on('request', (request, client) => {
     if (request.id) {
         client.throwNotFound(request.id, `method ${request.method} not found`);
     }
+});
+
+server.on('connection', (client) => {
+    client.notify('say', ['hello', 'world']);
 });
