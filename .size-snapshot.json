@@ -5,9 +5,9 @@
     "gzipped": 3579
   },
   "lib/index.js": {
-    "bundled": 14572,
-    "minified": 9216,
-    "gzipped": 2668
+    "bundled": 7249,
+    "minified": 7249,
+    "gzipped": 2288
   },
   "lib/ws-rpc-messaging.js": {
     "bundled": 33092,
