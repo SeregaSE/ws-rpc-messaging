@@ -1,30 +1,25 @@
-const WebSocket = require('../../lib');
+const { Server, OPEN } = require('../../lib');
 
-const server = new WebSocket.Server({ port: 3000 });
+const server = new Server({ port: 3000 });
 
-let balance = 0;
+const messages = [];
 
-server.on('connection', (client) => {
-    client.request('balance.update', { balance })
-        .catch(console.error); // timeout because clients do not respond
-});
+const handleNotify = ({ method, params }) => {
+    if (method === 'messages.write') {
+        messages.push(params.message);
 
-server.on('request', (request, origin, self) => {
-    if (request.method === 'balance.add') {
-        balance += request.params.amount;
-
-        /** broadcast balance update to all connected clients */
-        self.clients.forEach((client) => {
-            if (client.readyState === WebSocket.OPEN) {
-                client.notify('balance.update', { balance });
+        /** broadcast new message to all connected clients */
+        server.clients.forEach((client) => {
+            if (client.readyState === OPEN) {
+                client.notify('messages.new', params);
             }
         });
-
-        return;
     }
+};
 
-    /** throw not found error if have request id, it's not notification request */
-    if (request.id) {
-        origin.throwNotFound(request.id, `method ${request.method} not found`);
-    }
-});
+const handleConnection = (client) => {
+    client.on('notify', handleNotify);
+    client.notify('messages.history', { messages });
+};
+
+server.on('connection', handleConnection);

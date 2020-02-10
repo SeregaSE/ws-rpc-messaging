@@ -6,19 +6,6 @@ I'am trying to keep package simple and lightweight. [WS package](https://www.npm
 [![Version npm](https://img.shields.io/npm/v/ws-rpc-messaging.svg?logo=npm)](https://www.npmjs.com/package/ws-rpc-messaging)
 [![Build Status](https://travis-ci.org/SeregaSE/ws-rpc-messaging.svg?branch=master)](https://travis-ci.org/SeregaSE/ws-rpc-messaging)
 
-## LIB IN DEV
-
-First realese (1.0.0) is planned on 01.03.2020
-
-TO DO:
-
-* write tests
-* better doc
-
-TO DO FEATURES:
-
-* bulk messaging
-
 ## Table of contents
 
 * [How to use](#installing)
@@ -39,15 +26,7 @@ TO DO FEATURES:
 
 ## Installing
 
-using nodejs
-
 `npm install --save ws-rpc-messaging`
-
-using CDN
-
-`<script src="https://unpkg.com/ws-rpc-messaging/lib/ws-rpc-messaging.js"></script>`
-
-`<script src="https://unpkg.com/ws-rpc-messaging/lib/ws-rpc-messaging.min.js"></script>`
 
 ## Examples
 
@@ -55,84 +34,68 @@ For working examples and details [see examples](/examples)
 
 ## API
 
-### Class: WebSocket.Server
+### Class: Server
 
-WebSocket.Server class is built using [WebSocket.Server from ws package](https://github.com/websockets/ws/blob/master/doc/ws.md#class-websocketserver). It has the same constructor.
+Server class is built using [WebSocket.Server from ws package](https://github.com/websockets/ws/blob/master/doc/ws.md#class-websocketserver). It has the same constructor. Server only wraps incoming connections with rpc client api.
 
-WebSocket.Server proxy next properties and methods to [WebSocket.Server](https://github.com/websockets/ws/blob/master/doc/ws.md#class-websocketserver):
 
-* [new WebSocket.Server(options[, callback])](https://github.com/websockets/ws/blob/master/doc/ws.md#new-websocketserveroptions-callback)
-* [Event: 'close'](https://github.com/websockets/ws/blob/master/doc/ws.md#event-close)
-* [Event: 'error'](https://github.com/websockets/ws/blob/master/doc/ws.md#event-error)
-* [Event: 'headers'](https://github.com/websockets/ws/blob/master/doc/ws.md#event-headers)
-* [Event: 'listening'](https://github.com/websockets/ws/blob/master/doc/ws.md#event-listening)
-* [server.address()](https://github.com/websockets/ws/blob/master/doc/ws.md#serveraddress)
-* [server.close([callback])](https://github.com/websockets/ws/blob/master/doc/ws.md#serverclosecallback)
-* [server.handleUpgrade(request, socket, head, callback)](https://github.com/websockets/ws/blob/master/doc/ws.md#serverhandleupgraderequest-socket-head-callback)
-* [server.shouldHandle(request)](https://github.com/websockets/ws/blob/master/doc/ws.md#servershouldhandlerequest)
+Server proxy all properties and methods to [WebSocket.Server](https://github.com/websockets/ws/blob/master/doc/ws.md#class-websocketserver)
 
-#### Event: 'request'
-
-* request {Object}  json-rpc 2.0 Request object
-* client  {Client}, []instanceof WebSocket class from this package
-* server  {Client}, instanceof WebSocket.server from this package
-
-#### Event: 'error'
-
-* error  {Error}
-* client {Client}, sender
-* server {Server}, self-link for server
-
-Emitted when an error occurs on the underlying server. For example can't parse incoming message.
+Exclude `Server.clients`, returns Set of RPC Clients;
 
 ```js
-const WebSocket = require('ws-rpc-messaging')
-
-const server = new WebSocket.Server({ port: 3000 });
+const { Server, NOT_FOUND_ERROR, INTERNAL_ERROR } = require('ws-rpc-messaging');
 
 const fns = {
     sum: (...args) => args.reduce((acc, n) => acc + n, 0),
     sub: (...args) => args.slice(1).reduce((acc, n) => acc - n, args[0]),
 };
 
-/**
- * You can use routing or write any logic you want here...
- * Just don't forget to send response or error if request.id !== undefined
- */
-server.on('request', (request, client) => {
-    const fn = fns[request.method];
-
-    if (fn) {
-        const result = fn(...request.params);
-        /** request.id is important!!! */
-        client.respond(request.id, result);
-
-        return;
+const handleRequest = ({ id, method, params }, origin) => {
+    if (typeof fns[method] === 'function') {
+        try {
+            origin.respond(id, fns[method](...params));
+        } catch (error) {
+            origin.throw(id, INTERNAL_ERROR);
+        }
+    } else {
+        origin.throw(id, NOT_FOUND_ERROR);
     }
+};
 
-    /** throw not found error if have request id, it's not notification request */
-    if (request.id) {
-        client.throwNotFound(request.id, `method ${request.method} not found`);
-    }
-});
+const handleConnection = (client) => {
+    /**
+     * You can use routing or write any logic you want here...
+     * Just don't forget to send response or error if request.id !== undefined
+     */
+    client.on('request', handleRequest);
+};
+
+const server = new Server({ port: 3000 });
+server.on('connection', handleConnection);
 ```
 
-### Class: WebSocket
+### Class: Client
 
-WebSocket class is built using [WebSocket from ws package](https://github.com/websockets/ws/blob/master/doc/ws.md#class-websocket). It has the same constructor.
+Client class is built using [WebSocket from ws package](https://github.com/websockets/ws/blob/master/doc/ws.md#class-websocket). It has the same constructor.
 
-WebSocket proxy all properties and methods to [WebSocket.Server](https://github.com/websockets/ws/blob/master/doc/ws.md#class-websocket). (exclude rarely used properties, but also available `WebSocket.ws[any_real_prop]`)
+Client proxy all properties and methods to [WebSocket.Server](https://github.com/websockets/ws/blob/master/doc/ws.md#class-websocket). (exclude rarely used properties, but also available `Client.ws[any_real_prop]`)
 
 #### Event (client): 'error'
 
 * error  {Error}
 * client {Client}, self-link for client
 
-Emitted when can't parse recieved message
+Emitted when can't parse received message
 
 #### Event (client): 'request'
 
 * request {Object} json-rpc 2.0 Request object
+* client  {Client}, self-link for client
+
+#### Event (client): 'response'
+
+* request {Object} json-rpc 2.0 Response object
 * client  {Client}, self-link for client
 
 #### client.notify(method, params)
@@ -140,86 +103,59 @@ Emitted when can't parse recieved message
 * method {String} json-rpc 2.0 method
 * params {Object} json-rpc 2.0 params
 
-Send notification message to reciever. Reciever emit 'request' event.
+Send notification message to receiver. Receiver emit 'notify' event.
 
 Notification DO NOT expect to have a response!
 
-#### client.request(method, params) Promise
+#### client.request(method, params, callback)
 
 * method {String} json-rpc 2.0 method
 * params {Object} json-rpc 2.0 params
+* callback (error, result, origin)
+  * error:  json-rpc 2.0 error or null
+  * result: json-rpc 2.0 result or undefined
+  * origin: self-link for client
 
-Send request message to reciever. Reciever emit 'request' event. Return promise which will be resolved with JSON-RPC 2.0 RESPONSE object or rejected with JSON-RPC 2.0 ERROR object.
+Send request message to receiver. Receiver emit 'request' event. Callback will be fired with JSON-RPC 2.0 RESPONSE object and null error or with JSON-RPC 2.0 ERROR object.
+
+#### client.bulk(messages)
+
+* messages {Array} of notify `{ method, params }` or request `{ method, params, callback }` objects.
+
+Send many requests and notifications to receiver. Receiver handle every message independently and send response if callback provided.
 
 #### client.respond(id, result)
 
 * id     {String} json-rpc 2.0 request id, (string, int, null)
 * result {Object} json-rpc 2.0 result
 
-Send response message to request sender. Resolve Promise returned by the Client.request with the same id as in request.
+Send response message to request sender. Fires callback provided by the Client.request with the same id as in request.
 
 #### client.throw(id, error)
 
 * id    {String} json-rpc 2.0 request id, (string, int, null)
 * error {Object} json-rpc 2.0 error
 
-Send error message to request sender. Reject Promise returned by the Client.request with the same id as in request.
-
-Other helpers to respond with errors
-
-* throwRPCError(id, code number, message string, data string)
-* throwParseError(id, data string)
-* throwInvalidRequest(id, data string)
-* throwNotFound(id, data string)
-* throwInvalidParams(id, data string)
-* throwInternalError(id, data string)
+Send error message to request sender. Fires callback provided by the Client.request with the same id as in request.
 
 ```js
-const WebSocket = require('ws-rpc-messaging')
+const { Client } = require('ws-rpc-messaging');
 
-const ws = new WebSocket('ws://localhost:3000');
+const client = new Client('ws://localhost:3000');
 
-ws.on('open', () => {
-    ws.request('sum', [1, 3, 5])
-        .then(console.log) // 9
-        .catch(console.error);
-
-    ws.request('sub', [10, 2, 3])
-        .then(console.log) // 5
-        .catch(console.error);
-
-    ws.request('multiply', [2, 2, 3])
-        .then(console.log)
-        .catch(console.error); // not found
-});
-```
-
-### Class BrowserWebSocket
-
-BrowserWebSocket class is build using native WebSocket.
-
-API is the same as [Class: WebSocket](#class-websocket)
-
-```html
-<script src="https://unpkg.com/ws-rpc-messaging/lib/ws-rpc-messaging.min.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-    const ws = new RPCWebSocket('ws://localhost:3000');
-
-    ws.on('open', () => {
-        ws.request('sum', [1, 3, 5])
-            .then(console.log) // 9
-            .catch(console.error);
-
-        ws.request('sub', [10, 2, 3])
-            .then(console.log) // 5
-            .catch(console.error);
-
-        ws.request('multiply', [2, 2, 3])
-            .then(console.log)
-            .catch(console.error); // not found
+client.on('open', () => {
+    client.request('sum', [1, 3, 5], (err, res) => {
+        console.log(err, res);
     });
-</script>
+
+    client.request('sub', [10, 2, 3], (err, res) => {
+        console.log(err, res);
+    });
+
+    client.request('multiply', [2, 2, 3], (err, res) => {
+        console.log(err, res);
+    });
+});
 ```
 
 ### Broadcast
@@ -227,17 +163,24 @@ API is the same as [Class: WebSocket](#class-websocket)
 For more information check https://github.com/websockets/ws#server-broadcast
 
 ```js
-const WebSocket = require('ws-rpc-messaging')
+const { Server, OPEN } = require('ws-rpc-messaging');
 
-const server = new WebSocket.Server({ port: 3000 });
+const server = new Server({ port: 3000 });
 
-server.on('request', (request, origin, self) => {
-    self.clients.forEach((client) => {
-        if (client.readyState === WebSocket.OPEN) {
-            client.notify('to.something', { data: 'important message' });
-        }
-    });
-})
+const messages = [];
+
+const handleNotify = ({ method, params }) => {
+    if (method === 'messages.write') {
+        messages.push(params.message);
+
+        /** broadcast new message to all connected clients */
+        server.clients.forEach((client) => {
+            if (client.readyState === OPEN) {
+                client.notify('messages.new', params);
+            }
+        });
+    }
+};
 ```
 
 ## Usefull links

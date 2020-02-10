@@ -1,17 +1,17 @@
-const WebSocket = require('../../lib');
+const { Client } = require('../../lib');
 
-const ws = new WebSocket('ws://localhost:3000');
+const client = new Client('ws://localhost:3000');
 
-ws.on('open', () => {
-    ws.request('sum', [1, 3, 5])
-        .then(console.log) // 9
-        .catch(console.error);
+client.on('open', () => {
+    client.request('sum', [1, 3, 5], (err, res) => {
+        console.log(err, res);
+    });
 
-    ws.request('sub', [10, 2, 3])
-        .then(console.log) // 5
-        .catch(console.error);
+    client.request('sub', [10, 2, 3], (err, res) => {
+        console.log(err, res);
+    });
 
-    ws.request('multiply', [2, 2, 3])
-        .then(console.log)
-        .catch(console.error); // not found
+    client.request('multiply', [2, 2, 3], (err, res) => {
+        console.log(err, res);
+    });
 });
