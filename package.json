@@ -1,6 +1,6 @@
 {
   "name": "ws-rpc-messaging",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "json rpc client and server for data transfer via websocket",
   "main": "lib/index.js",
   "scripts": {
