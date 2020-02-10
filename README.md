@@ -14,13 +14,13 @@ I'am trying to keep package simple and lightweight. [WS package](https://www.npm
   * [request event](#event-request)
   * [error event](#event-error)
 * [Node client](#class-websocket)
-  * [recieve-error event](#event-client-error)
+  * [notify event](#event-client-notify)
   * [request event](#event-client-request)
   * [notify](#clientnotifymethod-params)
-  * [request](#clientrequestmethod-params-promise)
+  * [request](#clientrequestmethod-params-callback)
+  * [bulk](#clientbulkmessages)
   * [respond](#clientrespondid-result)
   * [throw](#clientthrowid-error)
-* [Browser client](#class-browserwebsocket)
 * [Broadcast](#broadcast)
 * [Usefull links](#usefull-links)
 
@@ -88,15 +88,25 @@ Client proxy all properties and methods to [WebSocket.Server](https://github.com
 
 Emitted when can't parse received message
 
+#### Event (client): 'notify'
+
+* request {Object} json-rpc 2.0 Request object
+
+Emitted when notification message received
+
 #### Event (client): 'request'
 
 * request {Object} json-rpc 2.0 Request object
 * client  {Client}, self-link for client
 
+Emitted when request message received
+
 #### Event (client): 'response'
 
 * request {Object} json-rpc 2.0 Response object
 * client  {Client}, self-link for client
+
+Emitted when response message received. Result or error messages.
 
 #### client.notify(method, params)
 
