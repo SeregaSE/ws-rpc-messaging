@@ -1,27 +1,41 @@
-const WebSocket = require('../../lib');
+const { Client } = require('../../lib');
+
+const random = (min, max) => Math.floor(min + Math.random() * (max + 1 - min));
+
+const pharases = {
+    0: 'Hello world!',
+    1: 'How are you?',
+    2: 'Javascript is the best!',
+    3: 'I\'am really happy to use web-sockets',
+};
 
 const createClient = (clientId) => {
-    let balance = 0;
+    let messages = [];
 
-    const client = new WebSocket('ws://localhost:3000');
-
-    const api = {
-        add: (amount) => client.notify('balance.add', { amount }),
-    };
+    const client = new Client('ws://localhost:3000');
 
     client.on('open', () => {
         console.log(`client ${clientId}, connected`);
-
-        setInterval(() => {
-            api.add(balance % clientId === 0 ? 1 : 2);
-        }, 1000 * clientId);
     });
 
-    client.on('request', (request) => {
-        if (request.method === 'balance.update') {
-            balance = request.params.balance;
-            console.log(`client ${clientId}, balance: ${balance} (updated)`);
+    const interval = setInterval(() => {
+        client.notify('messages.write', { message: pharases[random(0, 3)] });
+    }, 1000 * clientId);
+
+    client.on('notify', ({ method, params }) => {
+        if (method === 'messages.history') {
+            messages = params.messages;
+            console.log(`client ${clientId}, messages: ${messages}`);
         }
+
+        if (method === 'messages.new') {
+            messages.push(params.message);
+            console.log(`client ${clientId}, messages: ${messages}`);
+        }
+    });
+
+    client.on('close', () => {
+        clearInterval(interval);
     });
 };
 

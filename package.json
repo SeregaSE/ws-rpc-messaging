@@ -1,13 +1,12 @@
 {
   "name": "ws-rpc-messaging",
-  "version": "0.0.14",
-  "description": "json rpc api for ws data transfer",
+  "version": "1.0.0",
+  "description": "json rpc client and server for data transfer via websocket",
   "main": "lib/index.js",
   "scripts": {
-    "test": "babel-node ./node_modules/.bin/jest",
-    "lint": "eslint --config .eslintrc.js src",
-    "lint:fix": "eslint --fix --config .eslintrc.js src",
-    "build": "rollup --config rollup.config.js"
+    "test": "jest",
+    "lint": "eslint --config .eslintrc.js lib",
+    "lint:fix": "eslint --fix --config .eslintrc.js lib"
   },
   "keywords": [
     "ws",
@@ -19,14 +18,6 @@
   "repository": "https://github.com/SeregaSE/ws-rpc-messaging",
   "license": "MIT",
   "devDependencies": {
-    "@babel/cli": "^7.8.3",
-    "@babel/core": "^7.8.3",
-    "@babel/node": "^7.8.3",
-    "@babel/plugin-proposal-class-properties": "^7.8.3",
-    "@babel/preset-env": "^7.8.3",
-    "babel-eslint": "^10.0.3",
-    "babel-node": "0.0.1-security",
-    "babel-preset-env": "^1.7.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-airbnb-base": "^14.0.0",
@@ -35,12 +26,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "jest": "^24.9.0",
-    "rollup": "^1.29.0",
-    "rollup-plugin-babel": "^4.3.3",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-size-snapshot": "^0.10.0",
-    "rollup-plugin-terser": "^5.2.0"
+    "jsdoc": "^3.6.3"
   },
   "dependencies": {
     "uuid": "^3.4.0",
